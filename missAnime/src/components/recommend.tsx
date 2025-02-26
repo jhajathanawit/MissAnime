@@ -86,7 +86,7 @@ const Recommendation: React.FC = () => {
                     <p className="text-sm text-pink-100">{anime.score}</p>
                   </div>
                 </div>
-                <p className="text-sm text-pink-100">{anime.title}</p>
+                <p className="text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis ">{anime.title}</p>
               </div>
             </div>
           </Link>

@@ -27,13 +27,13 @@ function Navbar(){
             </div>
 
             <ul className="hidden md:flex gap-4">
-                <li><a target='_blank' href="https://jikan.moe/">JikanAPI</a></li>
+                <li><a target='_blank' href="https://jikan.moe/">Jikan.API</a></li>
                 <li><a target='_blank' href="https://github.com/jhajathanawit/MissAnime">GitHub</a></li>
                 <button onClick={toggleContact}>contact
                     {contact ? (
                         <ul className='text-sm text-left'>
                             <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">FaceBook</a></li>
-                            <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">Line</a></li>
+                            <li><a target='_blank' href="https://github.com/jhajathanawit">mygithub</a></li>
                             <li><a target='_blank' href="https://fastwork.co/user/thanawit.r">FastWork</a></li>
                         </ul>
                     ):null}
@@ -49,8 +49,8 @@ function Navbar(){
                 <button onClick={toggleContact}>contact
                     {contact ? (
                         <ul className='text-sm text-left'>
-                            <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">FaceBook</a></li>
-                            <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">Line</a></li>
+                           <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">FaceBook</a></li>
+                            <li><a target='_blank' href="https://github.com/jhajathanawit">mygithub</a></li>
                             <li><a target='_blank' href="https://fastwork.co/user/thanawit.r">FastWork</a></li>
                         </ul>
                     ):null}

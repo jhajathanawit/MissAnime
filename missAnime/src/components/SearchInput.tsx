@@ -13,7 +13,7 @@ export default function SearchInput() {
     navigate(
       `search?q=${term}&type=${type}&rating=${rating}&order_by=scored_by&sort=${score}`
     );
-  }, [ score, type, rating, navigate]);
+  }, [score, type, rating, navigate]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,8 +23,8 @@ export default function SearchInput() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="relative w-full">
+    <form onSubmit={handleSubmit} className="flex flex-col items-center">
+      <div className="relative w-screen max-w-md">
         <div className="absolute inset-y-0 flex items-center pl-3">
           <VscSearch className="w-5 h-5 text-gray-500" />
         </div>
@@ -34,14 +34,13 @@ export default function SearchInput() {
           onChange={(e) => setTerm(e.target.value)}
           className="pl-10 py-2 w-full border-0 shadow-none bg-white rounded-full focus:ring-0 focus:outline-none"
           placeholder="Search"
-          
         />
       </div>
-      <div className="flex py-1 justify-center items-center">
-        <select 
+      <div className="flex py-1 justify-center items-center space-x-2">
+        <select
           value={score}
           onChange={(e) => setScore(e.target.value)}
-          className="py2 px-2 border rounded bg-white text-black"
+          className="py-2 px-2 border rounded-2xl bg-white text-black focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="desc">Max-Score</option>
           <option value="asc">Min-Score</option>
@@ -49,7 +48,7 @@ export default function SearchInput() {
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="py2 px-2 border rounded bg-white text-black"
+          className="py-2 px-2 border rounded-2xl bg-white text-black focus:outline-none focus:ring focus:border-blue-300"
         >
           
           <option value="tv">Tv</option>
@@ -65,7 +64,7 @@ export default function SearchInput() {
         <select
           value={rating}
           onChange={(e) => setRating(e.target.value)}
-          className="py2 px-2 border rounded bg-white text-black"
+          className="py-2 px-2 border rounded-2xl bg-white text-black focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="g">All Ages</option>
           <option value="pg">PG-Children</option>

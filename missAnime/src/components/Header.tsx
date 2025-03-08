@@ -17,7 +17,7 @@ export default function Header() {
                 </div>
             </div> 
             
-            <div className="w-full max-w-xl font-sans">
+            <div className="justify-center items-center w-full ">
                 <SearchInput/>
             </div>
             

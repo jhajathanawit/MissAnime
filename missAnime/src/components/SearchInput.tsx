@@ -13,7 +13,7 @@ export default function SearchInput() {
     navigate(
       `search?q=${term}&type=${type}&rating=${rating}&order_by=scored_by&sort=${score}`
     );
-  }, [term, score, type, rating, navigate]);
+  }, [ score, type, rating, navigate]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,7 +24,7 @@ export default function SearchInput() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="relative">
+      <div className="relative w-full">
         <div className="absolute inset-y-0 flex items-center pl-3">
           <VscSearch className="w-5 h-5 text-gray-500" />
         </div>
@@ -37,7 +37,7 @@ export default function SearchInput() {
           
         />
       </div>
-      <div>
+      <div className="flex py-1 justify-center items-center">
         <select 
           value={score}
           onChange={(e) => setScore(e.target.value)}
@@ -51,6 +51,7 @@ export default function SearchInput() {
           onChange={(e) => setType(e.target.value)}
           className="py2 px-2 border rounded bg-white text-black"
         >
+          
           <option value="tv">Tv</option>
           <option value="movie">Movie</option>
           <option value="ova">Ova</option>

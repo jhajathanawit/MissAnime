@@ -21,6 +21,7 @@ interface SearchResponse {
 }
 
 export async function searchPackages(query: string, type: string | null, rating: string | null, sort: string | null): Promise<PackagesSummary[]> {
+    
     const res = await fetch(`https://api.jikan.moe/v4/anime?q=${query}&type=${type}&rating=${rating}&order_by=score&sort=${sort}`);
     const data: SearchResponse = await res.json();
     

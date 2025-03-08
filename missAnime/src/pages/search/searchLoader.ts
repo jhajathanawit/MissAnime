@@ -7,13 +7,14 @@ export interface SearchLoaderResult {
 
 export async function searchLoader({request}: {request: Request}):Promise<SearchLoaderResult> {
     const {searchParams} = new URL(request.url);
-    const query = searchParams.get("q");
+    const query = searchParams.get("q") || "";
+    const type = searchParams.get("type") || null;
+    const rating = searchParams.get("rating") || null;
+    const sort = searchParams.get("sort") || null;
 
-    if(!query){
-      throw new Error("Search term is required");
-    }
+   
     
-    const results = await searchPackages(query);
+    const results = await searchPackages( query,type, rating, sort);
     return {
         searchResult: results,
     }

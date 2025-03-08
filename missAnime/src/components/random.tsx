@@ -15,7 +15,7 @@ interface RandomAnime {
 
 export default function RandomAnime() {
     const [anime, setAnime] = useState<RandomAnime | null>(null);
-    console.log(anime, 'random anime');
+    
 
     const fetchRandomAnime = async (): Promise<void> => {
         const result = await fetch('https://api.jikan.moe/v4/random/anime');

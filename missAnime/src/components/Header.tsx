@@ -11,6 +11,7 @@ export default function Header() {
             <h1 className="text-pink-100">MISS</h1>
             <h1 className="text-pink-500">ANIME</h1>
           </Link>
+          
         </div>
         <div>
           <Navbar />

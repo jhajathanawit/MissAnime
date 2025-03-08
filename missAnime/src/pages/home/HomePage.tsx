@@ -8,7 +8,7 @@ export default function HomePage() {
     const {featurepackage} = useLoaderData() as HomeLoaderResult;
     console.log(featurepackage);
     return (
-        <div className="mt-10 pb-10">
+        <div className="pt-10 pb-10">
             <h1 className="text-2xl font-bold my-6 text-white">Top Ranking</h1>
             <AnimeList/>
             <h1 className="text-2xl font-bold my-6 text-white">Recommendation</h1>

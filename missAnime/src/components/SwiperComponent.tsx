@@ -6,6 +6,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import '../styles.css';
 import { Link } from 'react-router-dom';
+import SyncLoader from 'react-spinners/SyncLoader';
 
 interface Anime {
   mal_id: number;
@@ -20,7 +21,7 @@ const SwiperComponent: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const progressCircle = useRef<SVGCircleElement>(null);
+  const progressCircle = useRef<SVGSVGElement>(null);
   const progressContent = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -55,16 +56,8 @@ const SwiperComponent: React.FC = () => {
     fetchAnimeData();
   }, []);
 
-  const onAutoplayTimeLeft = (s: any, time: number, progress: number) => {
-    if (progressCircle.current) {
-      progressCircle.current.style.setProperty('--progress', `${1 - progress}`);
-    }
-    if (progressContent.current) {
-      progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
-    }
-  };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="flex justify-center items-center h-64"><SyncLoader color="pink" /></div>;
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -80,7 +73,7 @@ const SwiperComponent: React.FC = () => {
       }}
       navigation={true}
       modules={[Autoplay, Pagination, Navigation]}
-      onAutoplayTimeLeft={onAutoplayTimeLeft}
+      
       className="mySwiper"
       style={{ borderRadius: '10px' }}
     >
@@ -114,11 +107,11 @@ const SwiperComponent: React.FC = () => {
               }}
             ></div>
             <Link to={`/packages/${anime.mal_id}`} className="object-cover m-4">
-            <img
-              src={anime.image_url}
-              alt={anime.title}
-              style={{ width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2,border: '1px solid white',borderRadius:'10px',boxShadow: '2.5px 2.5px 10px black' }}
-            />
+              <img
+                src={anime.image_url}
+                alt={anime.title}
+                style={{ width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2, border: '1px solid white', borderRadius: '10px', boxShadow: '2.5px 2.5px 10px black' }}
+              />
             </Link>
             <h3
               style={{

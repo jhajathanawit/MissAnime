@@ -2,7 +2,7 @@ import type { detailsLoaderResult } from "./detailLoader";
 import { useLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import Related from "./related/related.tsx";
+import Related from "./related/related";
 
 export default function DetailsPage() {
   const { details } = useLoaderData() as detailsLoaderResult;

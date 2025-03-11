@@ -45,7 +45,7 @@ export default function RandomAnime() {
                 style={{ backgroundImage: `url(${anime?.images.webp.large_image_url})` }}
             ></div>
             <div className="relative flex justify-center items-center gap-4">
-                <Link to={`/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4">
+                <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4">
                     <div className="w-80 h-108 rounded-[10px] overflow-hidden">
                         <img
                             className="w-full h-full object-contain"
@@ -62,7 +62,7 @@ export default function RandomAnime() {
                         <button className="bg-pink-500 rounded-[10px] p-1 hover:text-[#0f151f] hover:bg-pink-300" onClick={fetchRandomAnime}>
                             Random
                         </button>
-                        <Link to={`/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover">
+                        <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover">
                             <button className="bg-pink-500 rounded-[10px] p-1 hover:text-[#0f151f] hover:bg-pink-300">
                                 Detail
                             </button>

@@ -1,17 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Header from '../components/Header'
 
-import Header from '../components/Header';
-
-export default function Root() {
-    return (
-        <div className='container m-auto px-20 bg-[#0a0f18] '>
-            <Header/>
-            <div className='font-sans'>
-                <Outlet/>
-            </div>
-            
-            
-           
-        </div>
-    )
+const Root: React.FC = () => {
+  return (
+    <div className="bg-[#0a0f18] min-h-screen py-4 px-20"> 
+      <Header />
+      <Outlet />
+    </div>
+  )
 }
+
+export default Root

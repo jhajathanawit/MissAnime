@@ -63,7 +63,7 @@ const Airing: React.FC = () => {
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
         {visibleAnimeList.map((anime) => (
           <Link
-            to={`/packages/${anime.mal_id}`}
+            to={`/MissAnime/packages/${anime.mal_id}`}
             key={anime.mal_id}
             className="object-cover m-4"
           >

@@ -7,7 +7,7 @@ export default function Header() {
     <div className="flex-col border-b py-2">
       <div className="flex justify-between items-center py-2">
         <div className="flex items-center">
-          <Link to="/" className="flex text-4xl font-bold">
+          <Link to="/MissAnime/" className="flex text-4xl font-bold">
             <h1 className="text-pink-100">MISS</h1>
             <h1 className="text-pink-500">ANIME</h1>
           </Link>

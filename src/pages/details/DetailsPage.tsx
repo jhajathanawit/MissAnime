@@ -17,7 +17,8 @@ export default function DetailsPage() {
   }, [details]);
 
   return (
-    <div className="flex flex-col w-full mt-4">
+    <div className="flex flex-col w-full mt-4 bg-gray-900 min-h-screen">
+      
       <div className="text-pink-100 text-4xl font-bold p-4">
         <p>{details.data.title} - {details.data.year}</p>
       </div>

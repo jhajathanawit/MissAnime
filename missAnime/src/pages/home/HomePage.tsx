@@ -1,23 +1,51 @@
-import { useLoaderData } from "react-router-dom"
-import type { HomeLoaderResult } from "./homeLoader"
+import { useLoaderData } from "react-router-dom";
+import type { HomeLoaderResult } from "./homeLoader";
 import AnimeList from "../../components/Top";
-import Recommendation from "../../components/recommend";
-import RandomAnime from "../../components/random"; 
-import SwiperComponent from "../../components/SwiperComponent";  
+import Hentai from "../../components/Hentai";
+import RandomAnime from "../../components/random";
+import SwiperComponent from "../../components/SwiperComponent";
+import { useState, useEffect } from "react";
 
 export default function HomePage() {
-    const {featurepackage} = useLoaderData() as HomeLoaderResult;
+    const { featurepackage } = useLoaderData() as HomeLoaderResult;
     console.log(featurepackage);
+
+    const [showAnimeList, setShowAnimeList] = useState(false);
+    const [showHentai, setShowHentai] = useState(false);
+    const [showRandomAnime, setShowRandomAnime] = useState(false);
+
+    useEffect(() => {
+        
+        const animeListTimeout = setTimeout(() => {
+            setShowAnimeList(true);
+        }, 500); 
+
+        
+        const hentaiTimeout = setTimeout(() => {
+            setShowHentai(true);
+        }, 1000); 
+
+        
+        const randomAnimeTimeout = setTimeout(() => {
+            setShowRandomAnime(true);
+        }, 1500); 
+
+        return () => {
+            clearTimeout(animeListTimeout);
+            clearTimeout(hentaiTimeout);
+            clearTimeout(randomAnimeTimeout);
+        };
+    }, []);
+
     return (
         <div className="pt-10 pb-10">
-            <SwiperComponent/>
+            <SwiperComponent />
             <h1 className="text-2xl font-bold my-6 text-white">Top Ranking</h1>
-            <AnimeList/>
+            {showAnimeList && <AnimeList />}
             <h1 className="text-2xl font-bold my-6 text-white">Recommendation</h1>
-            <Recommendation/>
+            {showHentai && <Hentai />}
             <h1 className="text-2xl font-bold my-6 text-white">Random</h1>
-            <RandomAnime/>
+            {showRandomAnime && <RandomAnime />}
         </div>
-      
-    )
+    );
 }

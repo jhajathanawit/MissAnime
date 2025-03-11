@@ -115,7 +115,7 @@ const SwiperComponent: React.FC = () => {
             <img
               src={anime.image_url}
               alt={anime.title}
-              style={{ width: '100%', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2,border: '1px solid white' }}
+              style={{ width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2,border: '1px solid white',borderRadius:'10px',boxShadow: '2.5px 2.5px 10px black' }}
             />
             <h3
               style={{

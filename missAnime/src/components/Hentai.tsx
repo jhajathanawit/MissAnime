@@ -12,13 +12,13 @@ interface Anime {
   score?: number;
 }
 
-const Recommendation: React.FC = () => {
+const Hentai: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
 
   useEffect(() => {
     const fetchAnimeData = async () => {
-      const response = await fetch("https://api.jikan.moe/v4/recommendations/anime");
+      const response = await fetch("https://api.jikan.moe/v4/anime?rating=rx&order_by=rank");
       const data = await response.json();
 
       if (data && data.data && data.data.length > 0) {
@@ -26,10 +26,10 @@ const Recommendation: React.FC = () => {
         
         setAnimeList(
           top10Anime.map((anime: any) => ({
-            mal_id: anime.entry[0].mal_id,
-            title: anime.entry[0].title,
-            image_url: anime.entry[0].images.jpg.image_url,
-            url: anime.entry[0].url,
+            mal_id: anime.mal_id,
+            title: anime.title,
+            image_url: anime.images.jpg.image_url,
+            url: anime.url,
             rank: anime.rank,
             score: anime.score,
           }))
@@ -116,4 +116,4 @@ const Recommendation: React.FC = () => {
   );
 };
 
-export default Recommendation;
+export default Hentai;

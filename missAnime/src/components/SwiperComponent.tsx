@@ -5,6 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import '../styles.css';
+import { Link } from 'react-router-dom';
 
 interface Anime {
   mal_id: number;
@@ -112,11 +113,13 @@ const SwiperComponent: React.FC = () => {
                 overflow: 'hidden',
               }}
             ></div>
+            <Link to={`/packages/${anime.mal_id}`} className="object-cover m-4">
             <img
               src={anime.image_url}
               alt={anime.title}
               style={{ width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2,border: '1px solid white',borderRadius:'10px',boxShadow: '2.5px 2.5px 10px black' }}
             />
+            </Link>
             <h3
               style={{
                 position: 'absolute',

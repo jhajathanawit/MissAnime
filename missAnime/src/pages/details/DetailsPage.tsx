@@ -1,5 +1,6 @@
 import type { detailsLoaderResult } from "./detailLoader";
 import { useLoaderData } from "react-router-dom";
+import Related from "./related/related.tsx";
 
 export default function DetailsPage() {
   const { details } = useLoaderData() as detailsLoaderResult;
@@ -69,6 +70,9 @@ export default function DetailsPage() {
           </div>
           
         </div>
+      </div>
+      <div className="flex flex-col w-full mb-4">
+        <Related key={details.data.mal_id} type={details.data.type} />
       </div>
     </div>
   );

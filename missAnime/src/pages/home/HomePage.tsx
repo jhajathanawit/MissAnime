@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import type { HomeLoaderResult } from "./homeLoader";
 import AnimeList from "../../components/Top";
-import Hentai from "../../components/Hentai";
+import Airing from "../../components/airing";
 import RandomAnime from "../../components/random";
 import SwiperComponent from "../../components/SwiperComponent";
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ export default function HomePage() {
     console.log(featurepackage);
 
     const [showAnimeList, setShowAnimeList] = useState(false);
-    const [showHentai, setShowHentai] = useState(false);
+    const [showAiring, setShowAiring] = useState(false);
     const [showRandomAnime, setShowRandomAnime] = useState(false);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function HomePage() {
 
         
         const hentaiTimeout = setTimeout(() => {
-            setShowHentai(true);
+            setShowAiring(true);
         }, 1000); 
 
         
@@ -43,7 +43,7 @@ export default function HomePage() {
             <h1 className="text-2xl font-bold my-6 text-white">Top Ranking</h1>
             {showAnimeList && <AnimeList />}
             <h1 className="text-2xl font-bold my-6 text-white">Recommendation</h1>
-            {showHentai && <Hentai />}
+            {showAiring && <Airing />}
             <h1 className="text-2xl font-bold my-6 text-white">Random</h1>
             {showRandomAnime && <RandomAnime />}
         </div>

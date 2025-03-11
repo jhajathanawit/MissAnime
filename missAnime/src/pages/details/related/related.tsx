@@ -12,13 +12,17 @@ interface Anime {
   score?: number;
 }
 
-const Hentai: React.FC = () => {
+interface RelatedProps {
+  type: string;
+}
+
+const Related: React.FC<RelatedProps> = ({ type }) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
 
   useEffect(() => {
     const fetchAnimeData = async () => {
-      const response = await fetch("https://api.jikan.moe/v4/anime?rating=rx&order_by=rank");
+      const response = await fetch(`https://api.jikan.moe/v4/anime?type=${type}`);
       const data = await response.json();
 
       if (data && data.data && data.data.length > 0) {
@@ -38,7 +42,7 @@ const Hentai: React.FC = () => {
     };
 
     fetchAnimeData();
-  }, []);
+  }, [type]);
 
   const handleShowMore = () => {
     setVisibleRows(animeList.length);
@@ -116,4 +120,4 @@ const Hentai: React.FC = () => {
   );
 };
 
-export default Hentai;
+export default Related;

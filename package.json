@@ -11,6 +11,7 @@
     "serve": "vite preview",
     "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://jhajathanawit.github.io/missanime",
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.8.2",

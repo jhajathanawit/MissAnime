@@ -48,24 +48,24 @@ const AnimeList: React.FC = () => {
     0,
     visibleRows *
       (window.innerWidth < 640
-        ? 1
-        : window.innerWidth < 768
         ? 2
-        : window.innerWidth < 1024
+        : window.innerWidth < 768
         ? 3
-        : window.innerWidth < 1280
+        : window.innerWidth < 1024
         ? 4
+        : window.innerWidth < 1280
+        ? 6
         : 7)
   ); 
 
   return (
     <div >
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-10px">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-2">
         {visibleAnimeList.map((anime) => (
           <Link
             to={`/MissAnime/packages/${anime.mal_id}`}
             key={anime.mal_id}
-            className="object-cover m-4"
+            className="object-cover m-2"
           >
             <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full">
               
@@ -98,14 +98,14 @@ const AnimeList: React.FC = () => {
       <div className="flex justify-center">
       {visibleRows *
         (window.innerWidth < 640
-          ? 1
-          : window.innerWidth < 768
           ? 2
-          : window.innerWidth < 1024
+          : window.innerWidth < 768
           ? 3
-          : window.innerWidth < 1280
+          : window.innerWidth < 1024
           ? 4
-          : 5) <
+          : window.innerWidth < 1280
+          ? 6
+          : 7) <
         animeList.length && ( 
         <button
           onClick={handleShowMore}

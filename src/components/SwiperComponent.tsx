@@ -80,10 +80,10 @@ const SwiperComponent: React.FC = () => {
       {animeList.map((anime) => (
         <SwiperSlide key={anime.mal_id}>
           <div
-            className="swiper-slide-content"
+            className="swiper-slide-content "
             style={{
               position: 'relative',
-              height: '40rem',
+              height: '32rem',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',

@@ -44,9 +44,10 @@ export default function RandomAnime() {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 rounded-[10px]"
                 style={{ backgroundImage: `url(${anime?.images.webp.large_image_url})` }}
             ></div>
-            <div className="relative flex justify-center items-center gap-4">
-                <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4">
-                    <div className="w-80 h-108 rounded-[10px] overflow-hidden">
+            
+            <div className="relative grid md:grid-cols-2 justify-center items-center  gap-4">
+                <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4 flex justify-center">
+                    <div className="w-80 h-108 rounded-[10px] justify-center items-center overflow-hidden">
                         <img
                             className="w-full h-full object-contain"
                             src={anime?.images.webp.large_image_url}
@@ -54,7 +55,7 @@ export default function RandomAnime() {
                         />
                     </div>
                 </Link>
-                <div className="flex flex-col gap-2 text-pink-100 text-2xl font-bold bg-[#1f293a50] p-4 rounded-[10px]">
+                <div className="flex flex-col gap-2 text-pink-100 text-2xl font-bold bg-[#181f2c50] w-[20rem] p-4 rounded-[10px]">
                     <h2>{anime?.title}</h2>
                     <p>Rank: {anime?.rank}</p>
                     <p>Score: {anime?.score}</p>
@@ -70,6 +71,7 @@ export default function RandomAnime() {
                     </div>
                 </div>
             </div>
+            
         </div>
     );
 }

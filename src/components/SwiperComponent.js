@@ -52,9 +52,9 @@ const SwiperComponent = () => {
             disableOnInteraction: false,
         }, pagination: {
             clickable: true,
-        }, navigation: true, modules: [Autoplay, Pagination, Navigation], className: "mySwiper", style: { borderRadius: '10px' }, children: [animeList.map((anime) => (_jsx(SwiperSlide, { children: _jsxs("div", { className: "swiper-slide-content", style: {
+        }, navigation: true, modules: [Autoplay, Pagination, Navigation], className: "mySwiper", style: { borderRadius: '10px' }, children: [animeList.map((anime) => (_jsx(SwiperSlide, { children: _jsxs("div", { className: "swiper-slide-content ", style: {
                         position: 'relative',
-                        height: '40rem',
+                        height: '32rem',
                         width: '100%',
                         display: 'flex',
                         justifyContent: 'center',

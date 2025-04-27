@@ -7,11 +7,11 @@ export default function SearchInput() {
   const [tempTerm, setTempTerm] = useState<string>(""); // เพิ่ม tempTerm
   const [score, setScore] = useState<string>("desc");
   const [type, setType] = useState<string>("tv");
-  const [rating, setRating] = useState<string>("pg13");
+  const [rating, setRating] = useState<string>("");
   const navigate = useNavigate();
 
   const searchParams = useMemo(() => {
-    return `search?q=${term}&type=${type}&rating=${rating}&order_by=scored_by&sort=${score}`;
+    return `search?q=${term}&type=${type}${rating}&order_by=scored_by&sort=${score}`;
   }, [term, score, type, rating]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -73,16 +73,17 @@ export default function SearchInput() {
           <option value="tv_special">Tv_Special</option>
         </select>
         <select
-          value={rating}
+          value={rating || ""}
           onChange={(e) => setRating(e.target.value)}
           className={selectStyle}
         >
-          <option value="g">All Ages</option>
-          <option value="pg">PG-Children</option>
-          <option value="pg13">PG13</option>
-          <option value="r17">R-17+</option>
-          <option value="r">R+</option>
-          <option value="rx">Rx(Hentai)</option>
+          <option value="&rating=">All</option>
+          <option value="&rating=g">G</option>
+          <option value="&rating=pg">PG-Children</option>
+          <option value="&rating=pg13">PG13</option>
+          <option value="&rating=r17">R-17+</option>
+          <option value="&rating=r">R+</option>
+          <option value="&rating=rx">Rx(Hentai)</option>
         </select>
       </div>
     </form>

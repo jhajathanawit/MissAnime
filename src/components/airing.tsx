@@ -55,12 +55,12 @@ const Airing: React.FC = () => {
         ? 4
         : window.innerWidth < 1280
         ? 6
-        : 7)
+        : 8)
   );
 
   return (
     <div >
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-7 gap-2">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
         {visibleAnimeList.map((anime) => (
           <Link
             to={`/MissAnime/packages/${anime.mal_id}`}
@@ -102,7 +102,7 @@ const Airing: React.FC = () => {
             ? 4
             : window.innerWidth < 1280
             ? 6
-            : 7) <
+            : 8) <
           animeList.length && (
           <button
             onClick={handleShowMore}

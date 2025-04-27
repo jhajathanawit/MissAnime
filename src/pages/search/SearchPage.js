@@ -25,5 +25,5 @@ export default function SearchPage() {
         }
     });
     const renderPackages = sortedResults.map((result, index) => (_jsx(PackagesListItem, { pack: result }, `${result.mal_id}-${index}`)));
-    return (_jsxs("div", { children: [_jsxs("h1", { className: "text-2xl font-bold my-6 text-white", children: ["Result : \"", searchTerm, "\""] }), loading ? (_jsx("div", { className: "flex justify-center items-center h-64", children: _jsx(SyncLoader, { color: "pink" }) })) : (_jsx("div", { className: "grid grid-cols justify-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-10px", children: renderPackages }))] }));
+    return (_jsxs("div", { children: [_jsxs("h1", { className: "text-2xl font-bold my-6 text-white", children: ["Result : \"", searchTerm, "\""] }), loading ? (_jsx("div", { className: "flex justify-center items-center h-64", children: _jsx(SyncLoader, { color: "pink" }) })) : (_jsx("div", { className: "grid grid-cols justify-items-center sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-8 gap-10px", children: renderPackages }))] }));
 }

@@ -1,4 +1,4 @@
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useLoaderData } from "react-router-dom";
 import AnimeList from "../../components/Top";
 import Airing from "../../components/airing";
@@ -33,5 +33,5 @@ export default function HomePage() {
             clearTimeout(loadingTimeout);
         };
     }, []);
-    return (_jsx("div", { className: "pt-10 pb-10", children: loading ? (_jsx("div", { className: "flex justify-center items-center h-64", children: _jsx(SyncLoader, { color: "pink" }) })) : (_jsxs(_Fragment, { children: [_jsx(SwiperComponent, {}), _jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Top Ranking" }), showAnimeList && _jsx(AnimeList, {}), _jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Recommendation" }), showAiring && _jsx(Airing, {}), _jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Random" }), showRandomAnime && _jsx(RandomAnime, {})] })) }));
+    return (_jsx("div", { className: "pt-10 pb-10", children: loading ? (_jsx("div", { className: "flex justify-center items-center h-64", children: _jsx(SyncLoader, { color: "pink" }) })) : (_jsxs(_Fragment, { children: [_jsx(SwiperComponent, {}), _jsxs("div", { className: "mt-10", children: [_jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Top Ranking" }), showAnimeList && _jsx(AnimeList, {})] }), _jsxs("div", { className: "mt-10", children: [_jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Recommendation" }), showAiring && _jsx(Airing, {})] }), _jsx("h1", { className: "text-2xl font-bold my-6 text-white", children: "Random" }), showRandomAnime && _jsx(RandomAnime, {})] })) }));
 }

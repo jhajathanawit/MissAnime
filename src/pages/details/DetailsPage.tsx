@@ -88,6 +88,9 @@ export default function DetailsPage() {
             </div>
           </div>
           <div className="flex flex-col w-full mb-4">
+            <h3 className="text-pink-100 text-2xl font-bold p-4">
+              Related Anime
+              </h3> 
             <Related key={details.data.mal_id} type={details.data.type} />
           </div>
         </>

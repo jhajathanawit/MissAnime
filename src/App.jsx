@@ -21,9 +21,9 @@ function App() {
                         <Route index element={<HomePage />} loader={homeLoader} />
                         <Route path="search" element={<SearchPage />} loader={searchLoader} />
                         <Route path="packages/:name" element={<DetailsPage />} loader={detailsLoader} />
-                        <Route path="login" element={<Login/>} />
-                        <Route Path= "user/:id" element={<UserDashboard/>}/>
-                        <Route Path= "contact" element={<Contact/>}/>
+                        <Route path="login" element={<Login />} />
+                        <Route Path= "user/:id" element={<UserDashboard />}/>
+                        <Route Path= "contact" element={<Contact />}/>
                     </Route>
                 </Routes>
             </Router>

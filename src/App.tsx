@@ -19,9 +19,13 @@ const router = createBrowserRouter([
       { path: "search", element: <SearchPage />, loader: searchLoader },
       { path: "packages/:name", element: <DetailsPage />, loader: detailsLoader },
       { path: "login", element: <Login /> },
-      { path: "user", element: <UserDashboard />},
-      { path: "contact", element: <Contact/> }
+      { path: "user", element: <UserDashboard /> },
+      { path: "contact", element: <Contact /> }
     ]
+  },
+  {
+    path: "/contact",
+    element: <Contact />
   }
 ]);
 

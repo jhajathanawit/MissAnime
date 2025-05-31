@@ -22,6 +22,10 @@ const router = createBrowserRouter([
             { path: "user", element: _jsx(UserDashboard, {}) },
             { path: "contact", element: _jsx(Contact, {}) }
         ]
+    },
+    {
+        path: "/contact",
+        element: _jsx(Contact, {})
     }
 ]);
 function App() {

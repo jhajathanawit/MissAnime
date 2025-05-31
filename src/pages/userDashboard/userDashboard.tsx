@@ -33,7 +33,7 @@ const UserDashboard: React.FC = () => {
 
     if (!token || !storedUser) {
       displayMessage('คุณยังไม่ได้เข้าสู่ระบบ. กรุณาเข้าสู่ระบบ.', 'error');
-      setTimeout(() => navigate('MissAnime/login'), 2000);
+      setTimeout(() => navigate('/MissAnime/login'), 2000);
       setLoading(false);
       return;
     }
@@ -49,7 +49,7 @@ const UserDashboard: React.FC = () => {
       displayMessage('ข้อมูลผู้ใช้ใน LocalStorage เสียหาย. กรุณาเข้าสู่ระบบใหม่.', 'error');
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('currentUser');
-      setTimeout(() => navigate('MissAnime/login'), 2000);
+      setTimeout(() => navigate('/MissAnime/login'), 2000);
       setLoading(false);
       return;
     }
@@ -71,7 +71,7 @@ const UserDashboard: React.FC = () => {
         displayMessage(error.message || 'ไม่สามารถโหลดข้อมูลโปรไฟล์ได้.', 'error');
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('currentUser');
-        setTimeout(() => navigate('MissAnime/login'), 2000);
+        setTimeout(() => navigate('/MissAnime/login'), 2000);
       })
       .finally(() => setLoading(false));
   }, [navigate]);
@@ -123,7 +123,7 @@ const UserDashboard: React.FC = () => {
             onClick={() => {
               localStorage.removeItem('jwtToken');
               localStorage.removeItem('currentUser');
-              navigate('MissAnime/login');
+              navigate('/MissAnime/login');
             }}
           >
             ออกจากระบบ

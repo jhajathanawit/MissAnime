@@ -24,6 +24,7 @@ function App() {
                         <Route path="login" element={<Login />} />
                         <Route Path= "user/:id" element={<UserDashboard />}/>
                         <Route Path= "contact" element={<Contact />}/>
+                        
                     </Route>
                 </Routes>
             </Router>

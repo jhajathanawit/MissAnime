@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { RiUserShared2Line } from "react-icons/ri";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,6 +19,12 @@ function Navbar() {
         </li>
         <li>
           <Link to="/MissAnime/contact">Contact</Link>
+        </li>
+        <li>
+          <Link to="/MissAnime/user/:id">
+            <RiUserShared2Line className="inline-block mr-1" />
+            
+          </Link>
         </li>
       </ul>
 
@@ -46,6 +53,12 @@ function Navbar() {
           </li>
           <li>
             <Link to="/MissAnime/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          </li>
+          <li>
+            <Link to="/MissAnime/user/:id" onClick={() => setMenuOpen(false)}>
+              <RiUserShared2Line className="inline-block mr-1" />
+              
+            </Link>
           </li>
         </ul>
       )}

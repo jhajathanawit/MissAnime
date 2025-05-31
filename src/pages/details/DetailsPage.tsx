@@ -29,6 +29,7 @@ export default function DetailsPage() {
         </div>
       ) : (
         <>
+        
           <div className="flex flex-col w-full mt-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 justify-items-center ">
               <div className="w-full grid-rows-2 lg:grid-rows-1 gap-0 justify-items-center">

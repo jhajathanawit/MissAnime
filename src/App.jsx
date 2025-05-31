@@ -8,6 +8,9 @@ import { searchLoader } from "./pages/search/searchLoader";
 import { detailsLoader } from "./pages/details/detailLoader";
 import { homeLoader } from "./pages/home/homeLoader";
 import ErrorPage from "./pages/ErrorPage"; // Import the ErrorPage component
+import Login  from "./pages/login/login";
+import UserDashboard from "./src/pages/user/UserDashboard";
+import Contact from "./pages/contact/contact";
 
 function App() {
     return (
@@ -18,6 +21,9 @@ function App() {
                         <Route index element={<HomePage />} loader={homeLoader} />
                         <Route path="search" element={<SearchPage />} loader={searchLoader} />
                         <Route path="packages/:name" element={<DetailsPage />} loader={detailsLoader} />
+                        <Route path="login" element={<Login/>} />
+                        <Route Path= "user/:id" element={<UserDashboard/>}/>
+                        <Route Path= "contact" element={<Contact/>}/>
                     </Route>
                 </Routes>
             </Router>

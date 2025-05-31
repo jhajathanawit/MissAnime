@@ -48,6 +48,7 @@ export default function HomePage() {
         </div>
       ) : (
         <>
+        
           <SwiperComponent />
           <div className="mt-10">
             <h1 className="text-2xl font-bold my-6 text-white">Top Ranking</h1>

@@ -7,6 +7,9 @@ import SearchPage from "./pages/search/SearchPage";
 import { searchLoader } from "./pages/search/searchLoader";
 import { detailsLoader } from "./pages/details/detailLoader";
 import { homeLoader } from "./pages/home/homeLoader";
+import Login from "./pages/login/login";
+import UserDashboard from "./pages/userDashboard/userDashboard";
+import Contact from "./pages/contact/contact";
 const router = createBrowserRouter([
     {
         path: "/MissAnime/",
@@ -14,7 +17,10 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: _jsx(HomePage, {}), loader: homeLoader },
             { path: "search", element: _jsx(SearchPage, {}), loader: searchLoader },
-            { path: "packages/:name", element: _jsx(DetailsPage, {}), loader: detailsLoader }
+            { path: "packages/:name", element: _jsx(DetailsPage, {}), loader: detailsLoader },
+            { path: "login", element: _jsx(Login, {}) },
+            { path: "user", element: _jsx(UserDashboard, {}) },
+            { path: "contact", element: _jsx(Contact, {}) }
         ]
     }
 ]);

@@ -1,4 +1,7 @@
 import { useState } from 'react';
+// Correct the import path below if necessary
+import Contact from "../../pages/contact/contact";
+import { Link } from "react-router-dom";
 
 function Navbar(){
 
@@ -9,10 +12,7 @@ function Navbar(){
         
     } 
 
-    const[contact, setContact] = useState(false);
-    const toggleContact = () => {
-        setContact(!contact);
-    }
+    
 
     return (
        <div className='text-white text-xl'>
@@ -29,32 +29,17 @@ function Navbar(){
             <ul className="hidden md:flex gap-4">
                 <li><a target='_blank' href="https://jikan.moe/">Jikan.API</a></li>
                 <li><a target='_blank' href="https://github.com/jhajathanawit/MissAnime">GitHub</a></li>
-                <button onClick={toggleContact}>contact
-                    {contact ? (
-                        <ul className='text-sm text-left'>
-                            <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">FaceBook</a></li>
-                            <li><a target='_blank' href="https://github.com/jhajathanawit">mygithub</a></li>
-                            <li><a target='_blank' href="https://fastwork.co/user/thanawit.r">FastWork</a></li>
-                        </ul>
-                    ):null}
-                </button>
-                
-
-
+                <li>
+                    <Link to="/contact">Contact</Link>
+                </li>
             </ul>
         </div>
         {menuOpen ? (<ul className="flex-col md:hidden gap-4">
                 <li><a target='_blank' href="https://jikan.moe/">JikanAPI</a></li>
                 <li><a target='_blank' href="https://github.com/jhajathanawit/MissAnime">GitHub</a></li>
-                <button onClick={toggleContact}>contact
-                    {contact ? (
-                        <ul className='text-sm text-left'>
-                           <li><a target='_blank' href="https://www.facebook.com/thanawit.rungsangchan/">FaceBook</a></li>
-                            <li><a target='_blank' href="https://github.com/jhajathanawit">mygithub</a></li>
-                            <li><a target='_blank' href="https://fastwork.co/user/thanawit.r">FastWork</a></li>
-                        </ul>
-                    ):null}
-                </button>
+                <li>
+                    <Link to="/contact">Contact</Link>
+                </li>
             </ul>
             ):null}
         

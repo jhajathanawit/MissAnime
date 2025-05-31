@@ -22,7 +22,7 @@ const UserDashboard = () => {
         const storedUser = localStorage.getItem('currentUser');
         if (!token || !storedUser) {
             displayMessage('คุณยังไม่ได้เข้าสู่ระบบ. กรุณาเข้าสู่ระบบ.', 'error');
-            setTimeout(() => navigate('/login'), 2000);
+            setTimeout(() => navigate('MissAnime/login'), 2000);
             setLoading(false);
             return;
         }

@@ -20,7 +20,7 @@ const router = createBrowserRouter([
             { path: "packages/:name", element: _jsx(DetailsPage, {}), loader: detailsLoader },
             { path: "login", element: _jsx(Login, {}) },
             { path: "user", element: _jsx(UserDashboard, {}) },
-            { path: "/MissAnime/contact", element: _jsx(Contact, {}) }
+            { path: "contact", element: _jsx(Contact, {}) }
         ]
     }
 ]);

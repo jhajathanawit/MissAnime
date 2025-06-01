@@ -12,8 +12,8 @@ function Navbar() {
   // ถ้า user ยังไม่ login ให้ไปหน้า login แทน
   const userLink =
     user && typeof user === 'object'
-      ? `/MissAnime/users/${(user as any).id || (user as any).user_id}`
-      : "/MissAnime/login";
+      ? `/users/${(user as any).id || (user as any).user_id}`
+      : "/login";
 
   return (
     <nav className="relative">
@@ -26,7 +26,7 @@ function Navbar() {
           <a target="_blank" rel="noopener noreferrer" href="https://github.com/jhajathanawit/MissAnime">GitHub</a>
         </li>
         <li>
-          <Link to="/MissAnime/contact">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </li>
         <li>
           <Link to={userLink}>
@@ -59,7 +59,7 @@ function Navbar() {
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/jhajathanawit/MissAnime">GitHub</a>
           </li>
           <li>
-            <Link to="/MissAnime/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+            <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
           </li>
           <li>
             <Link to={userLink} onClick={() => setMenuOpen(false)}>

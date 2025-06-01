@@ -72,7 +72,7 @@ const SwiperComponent = () => {
                                 zIndex: 1,
                                 borderRadius: '10px',
                                 overflow: 'hidden',
-                            } }), _jsx(Link, { to: `/MissAnime/packages/${anime.mal_id}`, className: "object-cover m-4", children: _jsx("img", { src: anime.image_url, alt: anime.title, style: { width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2, border: '1px solid white', borderRadius: '10px', boxShadow: '2.5px 2.5px 10px black' } }) }), _jsx("h3", { style: {
+                            } }), _jsx(Link, { to: `/packages/${anime.mal_id}`, className: "object-cover m-4", children: _jsx("img", { src: anime.image_url, alt: anime.title, style: { width: 'auto', height: '25rem', objectFit: 'contain', position: 'relative', zIndex: 2, border: '1px solid white', borderRadius: '10px', boxShadow: '2.5px 2.5px 10px black' } }) }), _jsx("h3", { style: {
                                 position: 'absolute',
                                 top: '90%',
                                 left: '50%',

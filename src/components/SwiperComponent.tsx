@@ -106,7 +106,7 @@ const SwiperComponent: React.FC = () => {
                 overflow: 'hidden',
               }}
             ></div>
-            <Link to={`/MissAnime/packages/${anime.mal_id}`} className="object-cover m-4">
+            <Link to={`/packages/${anime.mal_id}`} className="object-cover m-4">
               <img
                 src={anime.image_url}
                 alt={anime.title}

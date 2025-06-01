@@ -46,7 +46,7 @@ export default function RandomAnime() {
             ></div>
             
             <div className="relative grid md:grid-cols-2 justify-center items-center  gap-4">
-                <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4 flex justify-center">
+                <Link to={`/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover m-4 flex justify-center">
                     <div className="w-80 h-108 rounded-[10px] justify-center items-center overflow-hidden">
                         <img
                             className="w-full h-full object-contain"
@@ -63,7 +63,7 @@ export default function RandomAnime() {
                         <button className="bg-pink-500 rounded-[10px] p-1 hover:text-[#0f151f] hover:bg-pink-300" onClick={fetchRandomAnime}>
                             Random
                         </button>
-                        <Link to={`/MissAnime/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover">
+                        <Link to={`/packages/${anime?.mal_id}`} key={anime?.mal_id} className="object-cover">
                             <button className="bg-pink-500 rounded-[10px] p-1 hover:text-[#0f151f] hover:bg-pink-300">
                                 Detail
                             </button>

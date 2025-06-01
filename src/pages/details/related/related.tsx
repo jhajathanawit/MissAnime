@@ -91,7 +91,7 @@ const Related: React.FC<RelatedProps> = ({ type }) => {
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-8 gap-4">
         {visibleAnimeList.map((anime) => (
           <Link
-            to={`/MissAnime/packages/${anime.mal_id}`}
+            to={`/packages/${anime.mal_id}`}
             key={anime.mal_id}
             className="object-cover m-4"
           >

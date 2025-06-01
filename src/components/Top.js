@@ -35,7 +35,7 @@ const AnimeList = () => {
     const handleToggleFavorite = async (animeId) => {
         const token = localStorage.getItem("jwtToken");
         if (!token) {
-            navigate("/MissAnime/login");
+            navigate("/login");
             return;
         }
         // สามารถส่งไป API ได้ที่นี่ถ้าต้องการ
@@ -56,7 +56,7 @@ const AnimeList = () => {
                     : window.innerWidth < 1280
                         ? 6
                         : 8));
-    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/MissAnime/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(anime.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(anime.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
+    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(anime.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(anime.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
                                             e.preventDefault();
                                             e.stopPropagation();
                                             handleToggleFavorite(anime.mal_id);

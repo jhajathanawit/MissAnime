@@ -52,7 +52,7 @@ const AnimeList: React.FC = () => {
   const handleToggleFavorite = async (animeId: number) => {
     const token = localStorage.getItem("jwtToken");
     if (!token) {
-      navigate("/MissAnime/login");
+      navigate("/login");
       return;
     }
     // สามารถส่งไป API ได้ที่นี่ถ้าต้องการ
@@ -86,7 +86,7 @@ const AnimeList: React.FC = () => {
       <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
         {visibleAnimeList.map((anime) => (
           <Link
-            to={`/MissAnime/packages/${anime.mal_id}`}
+            to={`/packages/${anime.mal_id}`}
             key={anime.mal_id}
             className="object-cover m-2"
           >

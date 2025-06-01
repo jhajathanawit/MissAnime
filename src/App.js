@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/Root";
 import HomePage from "./pages/home/HomePage";
 import DetailsPage from "./pages/details/DetailsPage";
@@ -11,7 +11,7 @@ import Login from "./pages/login/login";
 import UserDashboard from "./pages/userDashboard/userDashboard";
 import Contact from "./pages/contact/contact";
 import { UserProvider } from "./contexts/UserContext";
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: "/",
         element: _jsx(Root, {}),

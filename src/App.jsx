@@ -11,7 +11,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Login  from "./pages/login/login";
 import UserDashboard from "./pages/user/UserDashboard";
 import Contact from "./pages/contact/contact";
-import { UserProvider } from "./contexts/UserContext"; // ตรวจสอบ path ให้ถูกต้อง
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
     return (

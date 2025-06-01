@@ -19,7 +19,7 @@ function App() {
             <div className="bg-[#0a0f18] min-h-screen p-4">
                 <Router>
                     <Routes>
-                        <Route path="/MissAnime/" element={<Root />} errorElement={<ErrorPage />}>
+                        <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
                             <Route index element={<HomePage />} loader={homeLoader} />
                             <Route path="search" element={<SearchPage />} loader={searchLoader} />
                             <Route path="packages/:name" element={<DetailsPage />} loader={detailsLoader} />

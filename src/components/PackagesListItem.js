@@ -14,7 +14,7 @@ export default function PackagesListItem({ pack }) {
     const handleToggleFavorite = (animeId) => {
         const token = localStorage.getItem('jwtToken');
         if (!token) {
-            navigate('/MissAnime/login');
+            navigate('/login');
             return;
         }
         setFavorites((prev) => prev.includes(animeId)
@@ -22,7 +22,7 @@ export default function PackagesListItem({ pack }) {
             : [...prev, animeId]);
         // คุณสามารถเพิ่ม fetch ไปยัง API ได้ที่นี่ถ้าต้องการ
     };
-    return (_jsx(Link, { to: `/MissAnime/packages/${pack.mal_id}`, className: "object-cover m-4", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(pack.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(pack.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
+    return (_jsx(Link, { to: `/packages/${pack.mal_id}`, className: "object-cover m-4", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(pack.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(pack.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 handleToggleFavorite(pack.mal_id);

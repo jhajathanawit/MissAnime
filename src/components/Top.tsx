@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge"; // เพิ่มบรรทัดนี้
+import { AiFillHeart } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 interface Anime {
   mal_id: number;
@@ -10,11 +13,15 @@ interface Anime {
   url: string;
   rank?: number;
   score?: number;
+  rating?: string;
+  type?: string;
 }
 
 const AnimeList: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
-  const [visibleRows, setVisibleRows] = useState(1); 
+  const [visibleRows, setVisibleRows] = useState(1);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAnimeData = async () => {
@@ -32,6 +39,8 @@ const AnimeList: React.FC = () => {
             url: anime.url,
             rank: anime.rank,
             score: anime.score,
+            rating: anime.rating,
+            type: anime.type,
           }))
         );
       }
@@ -39,6 +48,20 @@ const AnimeList: React.FC = () => {
 
     fetchAnimeData();
   }, []);
+
+  const handleToggleFavorite = async (animeId: number) => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      navigate("/MissAnime/login");
+      return;
+    }
+    // สามารถส่งไป API ได้ที่นี่ถ้าต้องการ
+    setFavorites((prev) =>
+      prev.includes(animeId)
+        ? prev.filter((id) => id !== animeId)
+        : [...prev, animeId]
+    );
+  };
 
   const handleShowMore = () => {
     setVisibleRows(animeList.length);
@@ -56,10 +79,10 @@ const AnimeList: React.FC = () => {
         : window.innerWidth < 1280
         ? 6
         : 8)
-  ); 
+  );
 
   return (
-    <div >
+    <div>
       <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
         {visibleAnimeList.map((anime) => (
           <Link
@@ -67,8 +90,29 @@ const AnimeList: React.FC = () => {
             key={anime.mal_id}
             className="object-cover m-2"
           >
-            <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full">
-              
+            <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
+              {/* เพิ่ม badge ด้านบน */}
+              <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
+                              <span className="scale-125">{getRatingBadge(anime.rating)}</span>
+                              <span className="scale-125">{getTypeBadge(anime.type)}</span>
+                              <button
+                                type="button"
+                                className="focus:outline-none"
+                                onClick={e => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleToggleFavorite(anime.mal_id);
+                                }}
+                              >
+                                <AiFillHeart
+                                  className={`w-9 h-9 transition-colors duration-200 ${
+                                    favorites.includes(anime.mal_id)
+                                      ? "text-pink-500"
+                                      : "text-white"
+                                  }`}
+                                />
+                              </button>
+                            </div>
               <div className="grid grid-cols-1 w-40 gap-2">
                 <div className="mb-2 flex justify-center object-cover">
                   <img
@@ -89,31 +133,33 @@ const AnimeList: React.FC = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis">{anime.title}</p>
+                <p className="text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis">
+                  {anime.title}
+                </p>
               </div>
             </div>
           </Link>
         ))}
       </ul>
       <div className="flex justify-center">
-      {visibleRows *
-        (window.innerWidth < 640
-          ? 2
-          : window.innerWidth < 768
-          ? 3
-          : window.innerWidth < 1024
-          ? 4
-          : window.innerWidth < 1280
-          ? 6
-          : 8) <
-        animeList.length && ( 
-        <button
-          onClick={handleShowMore}
-          className="mt-4 bg-pink-500 hover:bg-pink-300 text-white hover:text-[#0f151f] font-bold py-2 px-4 rounded"
-        >
-          Show More
-        </button>
-      )}
+        {visibleRows *
+          (window.innerWidth < 640
+            ? 2
+            : window.innerWidth < 768
+            ? 3
+            : window.innerWidth < 1024
+            ? 4
+            : window.innerWidth < 1280
+            ? 6
+            : 8) <
+          animeList.length && (
+          <button
+            onClick={handleShowMore}
+            className="mt-4 bg-pink-500 hover:bg-pink-300 text-white hover:text-[#0f151f] font-bold py-2 px-4 rounded"
+          >
+            Show More
+          </button>
+        )}
       </div>
     </div>
   );

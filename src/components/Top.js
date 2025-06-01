@@ -3,9 +3,14 @@ import { useState, useEffect } from "react";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge"; // เพิ่มบรรทัดนี้
+import { AiFillHeart } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 const AnimeList = () => {
     const [animeList, setAnimeList] = useState([]);
     const [visibleRows, setVisibleRows] = useState(1);
+    const [favorites, setFavorites] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchAnimeData = async () => {
             const response = await fetch("https://api.jikan.moe/v4/top/anime");
@@ -20,11 +25,24 @@ const AnimeList = () => {
                     url: anime.url,
                     rank: anime.rank,
                     score: anime.score,
+                    rating: anime.rating,
+                    type: anime.type,
                 })));
             }
         };
         fetchAnimeData();
     }, []);
+    const handleToggleFavorite = async (animeId) => {
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+            navigate("/MissAnime/login");
+            return;
+        }
+        // สามารถส่งไป API ได้ที่นี่ถ้าต้องการ
+        setFavorites((prev) => prev.includes(animeId)
+            ? prev.filter((id) => id !== animeId)
+            : [...prev, animeId]);
+    };
     const handleShowMore = () => {
         setVisibleRows(animeList.length);
     };
@@ -38,7 +56,13 @@ const AnimeList = () => {
                     : window.innerWidth < 1280
                         ? 6
                         : 8));
-    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/MissAnime/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsx("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full", children: _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: anime.image_url, alt: anime.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: anime.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: anime.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis", children: anime.title })] }) }) }, anime.mal_id))) }), _jsx("div", { className: "flex justify-center", children: visibleRows *
+    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/MissAnime/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(anime.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(anime.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleToggleFavorite(anime.mal_id);
+                                        }, children: _jsx(AiFillHeart, { className: `w-9 h-9 transition-colors duration-200 ${favorites.includes(anime.mal_id)
+                                                ? "text-pink-500"
+                                                : "text-white"}` }) })] }), _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: anime.image_url, alt: anime.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: anime.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: anime.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis", children: anime.title })] })] }) }, anime.mal_id))) }), _jsx("div", { className: "flex justify-center", children: visibleRows *
                     (window.innerWidth < 640
                         ? 2
                         : window.innerWidth < 768

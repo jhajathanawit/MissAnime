@@ -12,6 +12,8 @@ interface SearchResponse {
       };
     };
     rank: number;
+    rating?: string; // ใช้ ? เพื่อระบุว่าอาจไม่มีค่า
+    type?: string; // ใช้ ? เพื่อระบุว่าอาจไม่มีค่า
   }[];
 }
 
@@ -48,6 +50,8 @@ export async function searchPackages(
         },
       },
       rank: searchResult.rank,
+      rating: searchResult.rating || undefined, // ใช้ undefined หากไม่มีค่า rating
+      type: searchResult.type || undefined, // ใช้ undefined หากไม่มีค่า type
     };
   });
 }

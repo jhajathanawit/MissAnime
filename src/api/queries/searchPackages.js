@@ -20,6 +20,8 @@ export async function searchPackages(query, type, rating, sort) {
                 },
             },
             rank: searchResult.rank,
+            rating: searchResult.rating || undefined, // ใช้ undefined หากไม่มีค่า rating
+            type: searchResult.type || undefined, // ใช้ undefined หากไม่มีค่า type
         };
     });
 }

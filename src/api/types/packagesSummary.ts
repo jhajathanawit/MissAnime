@@ -10,6 +10,8 @@ export interface PackagesSummary {
             }
         }
         rank: number;
+        rating?: string;
+        type?: string;
     
 
 }

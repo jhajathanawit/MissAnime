@@ -4,9 +4,11 @@ import Header from '../components/Header'
 
 const Root: React.FC = () => {
   return (
-    <div className="bg-[#0a0f18] min-h-screen py-4 px-4"> 
+    <div className="bg-[#0a0f18] min-h-screen py-4 px-10"> 
       <Header />
-      <Outlet />
+      <div className='mx-auto max-w-480'>
+        <Outlet />
+      </div>
     </div>
   )
 }

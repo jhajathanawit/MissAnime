@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "serve": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://jhajathanawit.github.io/MissAnime",
+  "homepage": "https://jhajathanawit.github.io/MissAnime/",
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.8.2",

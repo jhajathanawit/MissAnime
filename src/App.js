@@ -24,7 +24,7 @@ const router = createHashRouter([
             { path: "contact", element: _jsx(Contact, {}) }
         ]
     }
-], { basename: "/MissAnime" });
+]);
 function App() {
     return (_jsx(UserProvider, { children: _jsx(RouterProvider, { router: router }) }));
 }

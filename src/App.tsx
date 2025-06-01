@@ -26,7 +26,7 @@ const router = createHashRouter(
       ]
     }
   ],
-  { basename: "/MissAnime" }
+ 
 );
 
 function App() {

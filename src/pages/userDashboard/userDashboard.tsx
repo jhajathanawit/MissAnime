@@ -54,16 +54,22 @@ const UserDashboard: React.FC = () => {
       return;
     }
 
-    // ดึงข้อมูล user จาก API โดยตรง
-    const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/user/${user.user_id}`;
+    // เรียก API ที่ backend ของคุณ
+    const apiUrl = `https://miss-anime-api.onrender.com/api/v1/users/${user.user_id}`;
     fetch(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res: Response) => res.json())
+      .then(async (res: Response) => {
+        if (!res.ok) {
+          throw new Error('ไม่พบข้อมูลผู้ใช้หรือ Token หมดอายุ');
+        }
+        return res.json();
+      })
       .then((data: any) => {
-        setCurrentUserProfile(data.user);
+        console.log('API response:', data);
+        setCurrentUserProfile(data.data.user); // <-- แก้ตรงนี้
         displayMessage('โหลดข้อมูลโปรไฟล์สำเร็จ!', 'success');
       })
       .catch((error: Error) => {

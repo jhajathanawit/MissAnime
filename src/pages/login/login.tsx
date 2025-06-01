@@ -2,9 +2,14 @@
 import React, { useState } from 'react';
 import AuthForm from '../../components/AuthForm';
 import { loginUser, registerUser } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../.././contexts/UserContext'; // Adjust the path if needed
+
 
 const Login: React.FC = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleLogin = async (data: any) => {
     const { User_Email, User_Pass } = data;
@@ -12,7 +17,9 @@ const Login: React.FC = () => {
       const response = await loginUser(User_Email, User_Pass);
       localStorage.setItem('jwtToken', response.token);
       localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+      setUser(response.data.user.user_id); // set user context
       alert('Login successful!');
+      navigate(`/users/${response.data.user.user_id}`); // redirect to user dashboard
     } catch (error: any) {
       throw error;
     }
@@ -24,8 +31,10 @@ const Login: React.FC = () => {
       const response = await registerUser(Username, User_Email, User_Pass, User_Image);
       localStorage.setItem('jwtToken', response.token);
       localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+      setUser(response.data.user.user_id); // set user context
       alert('Registration successful!');
       setIsLoginMode(true);
+      navigate(`/users/${response.data.user.user_id}`); // redirect after register
     } catch (error: any) {
       throw error;
     }

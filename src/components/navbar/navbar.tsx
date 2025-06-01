@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { RiUserShared2Line } from "react-icons/ri";
+import { useUser } from "../../contexts/UserContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useUser(); // ดึง user จาก context
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  // ถ้า user ยังไม่ login ให้ไปหน้า login แทน
+  const userLink =
+    user && typeof user === 'object'
+      ? `/MissAnime/users/${(user as any).id || (user as any).user_id}`
+      : "/MissAnime/login";
 
   return (
     <nav className="relative">
@@ -21,9 +29,8 @@ function Navbar() {
           <Link to="/MissAnime/contact">Contact</Link>
         </li>
         <li>
-          <Link to="/MissAnime/user/:id">
+          <Link to={userLink}>
             <RiUserShared2Line className="inline-block mr-1" />
-            
           </Link>
         </li>
       </ul>
@@ -55,9 +62,8 @@ function Navbar() {
             <Link to="/MissAnime/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
           </li>
           <li>
-            <Link to="/MissAnime/user/:id" onClick={() => setMenuOpen(false)}>
+            <Link to={userLink} onClick={() => setMenuOpen(false)}>
               <RiUserShared2Line className="inline-block mr-1" />
-              
             </Link>
           </li>
         </ul>

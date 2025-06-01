@@ -10,21 +10,22 @@ import { homeLoader } from "./pages/home/homeLoader";
 import Login from "./pages/login/login";
 import UserDashboard from "./pages/userDashboard/userDashboard";
 import Contact from "./pages/contact/contact";
+import { UserProvider } from "./contexts/UserContext";
 const router = createBrowserRouter([
     {
-        path: "/MissAnime/",
+        path: "/",
         element: _jsx(Root, {}),
         children: [
             { index: true, element: _jsx(HomePage, {}), loader: homeLoader },
             { path: "search", element: _jsx(SearchPage, {}), loader: searchLoader },
             { path: "packages/:name", element: _jsx(DetailsPage, {}), loader: detailsLoader },
             { path: "login", element: _jsx(Login, {}) },
-            { path: "user/:id", element: _jsx(UserDashboard, {}) },
+            { path: "users/:id", element: _jsx(UserDashboard, {}) },
             { path: "contact", element: _jsx(Contact, {}) }
         ]
     }
-]);
+], { basename: "/MissAnime" });
 function App() {
-    return (_jsx(RouterProvider, { router: router }));
+    return (_jsx(UserProvider, { children: _jsx(RouterProvider, { router: router }) }));
 }
 export default App;

@@ -129,7 +129,7 @@ const UserDashboard: React.FC = () => {
             onClick={() => {
               localStorage.removeItem('jwtToken');
               localStorage.removeItem('currentUser');
-              navigate('/MissAnime/login');
+              navigate('/');
             }}
           >
             ออกจากระบบ

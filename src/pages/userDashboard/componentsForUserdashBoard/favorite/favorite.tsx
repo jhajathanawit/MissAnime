@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -70,24 +71,29 @@ export default function Favorite() {
 
   if (animeList.length === 0)
     return <div className="text-center text-white">No favorite anime found.</div>;
-
   return (
     <div className="bg-black p-4 rounded-lg grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
       {animeList.map((anime) => (
-        <div key={anime.mal_id} className="bg-gray-800 rounded-lg p-2 flex flex-col items-center">
-          <img
-            src={anime.images.jpg.image_url}
-            alt={anime.title}
-            className="w-32 h-44 object-cover rounded"
-          />
-          <div className="mt-2 text-white text-center">
-            <div className="font-bold">{anime.title}</div>
-            {anime.score && <div>⭐ {anime.score}</div>}
-            {anime.type && <div className="text-xs">{anime.type}</div>}
-            {anime.rating && <div className="text-xs">{anime.rating}</div>}
+        <Link
+          to={`/packages/${anime.mal_id}`}
+          key={anime.mal_id}
+          className="object-cover"
+        >
+          <div className="bg-gray-800 rounded-lg p-2 flex flex-col items-center">
+            <img
+              src={anime.images.jpg.image_url}
+              alt={anime.title}
+              className="w-32 h-44 object-cover rounded"
+            />
+            <div className="mt-2 text-white text-center">
+              <div className="font-bold">{anime.title}</div>
+              {anime.score && <div>⭐ {anime.score}</div>}
+              {anime.type && <div className="text-xs">{anime.type}</div>}
+              {anime.rating && <div className="text-xs">{anime.rating}</div>}
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
-}
+} 

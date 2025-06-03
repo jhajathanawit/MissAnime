@@ -1,19 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { RiUserShared2Line } from "react-icons/ri";
 import { useUser } from "../../contexts/UserContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user } = useUser(); // ดึง user จาก context
+  const { user } = useUser();
+  const [profile, setProfile] = useState<{ user_image?: string; username?: string } | null>(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  // ถ้า user ยังไม่ login ให้ไปหน้า login แทน
+  // ถ้า login แล้วไปหน้า dashboard, ถ้าไม่ login ไป /login
   const userLink =
-    user && typeof user === 'object'
-      ? `/users/${(user as any).id || (user as any).user_id}`
+    user && typeof user === 'object' && (user as any).user_id
+      ? `/users/${(user as any).user_id}`
       : "/login";
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (user && (user as any).user_id) {
+        const res = await fetch(`https://miss-anime-api.onrender.com/api/v1/users/${(user as any).user_id}`);
+        const data = await res.json();
+        setProfile(data?.data?.user || null);
+      } else {
+        setProfile(null);
+      }
+    };
+    fetchProfile();
+  }, [user]);
+
+  // ส่วนแสดงรูป/username หรือ icon
+  const userDisplay = profile ? (
+    profile.user_image ? (
+      <img
+        src={profile.user_image}
+        alt="profile"
+        className="inline-block w-8 h-8 rounded-full object-cover border-2 border-pink-400"
+      />
+    ) : (
+      <span className="w-8 h-8 rounded-full bg-pink-400 text-white text-lg font-bold flex items-center justify-center">
+        {profile.username ? profile.username[0].toUpperCase() : "U"}
+      </span>
+    )
+  ) : (
+    <RiUserShared2Line className="inline-block mr-1" />
+  );
 
   return (
     <nav className="relative">
@@ -30,7 +61,7 @@ function Navbar() {
         </li>
         <li>
           <Link to={userLink}>
-            <RiUserShared2Line className="inline-block mr-1" />
+            {userDisplay}
           </Link>
         </li>
       </ul>
@@ -63,7 +94,7 @@ function Navbar() {
           </li>
           <li>
             <Link to={userLink} onClick={() => setMenuOpen(false)}>
-              <RiUserShared2Line className="inline-block mr-1" />
+              {userDisplay}
             </Link>
           </li>
         </ul>

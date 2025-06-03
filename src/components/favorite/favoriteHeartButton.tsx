@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
-import { addFavorite, getUserFavorites, deleteFavorite } from "./addFavorite";
+import { addFavorite, getUserFavorites, deleteFavoriteByExternalId } from "./addFavorite";
 
 interface Props {
   animeId: number;
@@ -21,7 +21,6 @@ const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onC
     e.preventDefault();
     e.stopPropagation();
 
-    // ถ้ายังไม่ได้ login ให้ redirect ไปหน้า login
     if (!user) {
       navigate("/login");
       return;
@@ -30,11 +29,20 @@ const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onC
     setLoading(true);
     const token = localStorage.getItem("jwtToken");
     const favs = await getUserFavorites(userId!, token!);
-    const found = favs.data?.some((a: any) => a.mal_id === animeId);
+    // ใช้ userAnimeList และ external_anime_id
+    const favArr = Array.isArray(favs.data?.userAnimeList) ? favs.data.userAnimeList : [];
+    const found = favArr.some((a: any) => a.external_anime_id === String(animeId));
     if (found) {
       setShowModal(true);
     } else {
-      await addFavorite(animeId, token!);
+      const res = await addFavorite(animeId, token!);
+      if (!res.ok) {
+        const err = await res.json();
+        console.error("Add favorite error:", err);
+        alert(err.message || "เพิ่มลิสต์ไม่สำเร็จ");
+        setLoading(false);
+        return;
+      }
       onChange(true);
     }
     setLoading(false);
@@ -43,7 +51,7 @@ const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onC
   const handleDelete = async () => {
     const token = localStorage.getItem("jwtToken");
     if (!token || !userId) return;
-    await deleteFavorite(userId, animeId, token);
+    await deleteFavoriteByExternalId(userId, String(animeId), token);
     onChange(false);
     setShowModal(false);
   };

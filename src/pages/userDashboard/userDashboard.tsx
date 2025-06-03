@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from '../../components/Message';
+import Favurite from './componentsForUserdashBoard/favorite/favorite';
+import Review from './componentsForUserdashBoard/review/review';
 
 interface User {
   user_id: number;
@@ -134,6 +136,14 @@ const UserDashboard: React.FC = () => {
           >
             ออกจากระบบ
           </button>
+        </div>
+        <div>
+          <h3 className="text-xl font-semibold mt-8 mb-4 text-gray-700">Favorite</h3>
+          <div><Favurite /></div>
+        </div>
+        <div>
+          <h3 className="text-xl font-semibold mt-8 mb-4 text-gray-700">My Review</h3>
+          <div><Review /></div>
         </div>
       </div>
     </div>

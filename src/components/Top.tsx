@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import FavoriteHeartButton from "./favorite/favoriteHeartButton";
 import { getUserFavorites } from "./favorite/addFavorite";
 import { useUser } from "../contexts/UserContext";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
 
 interface Anime {
   mal_id: number;
@@ -20,7 +21,7 @@ interface Anime {
 const AnimeList: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const { user } = useUser();
 
   useEffect(() => {
@@ -50,7 +51,9 @@ const AnimeList: React.FC = () => {
     const token = localStorage.getItem("jwtToken");
     if (token && user) {
       getUserFavorites(user, token).then((res) => {
-        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+        // ใช้ userAnimeList และ external_anime_id
+        const favArr = Array.isArray(res.data?.userAnimeList) ? res.data.userAnimeList : [];
+        setFavorites(favArr.map((a: any) => a.external_anime_id));
       });
     }
   }, [user]);
@@ -75,22 +78,24 @@ const AnimeList: React.FC = () => {
 
   return (
     <div>
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
         {visibleAnimeList.map((anime) => (
           <Link
             to={`/packages/${anime.mal_id}`}
             key={anime.mal_id}
             className="object-cover m-2"
           >
-            <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
+            <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-300 h-full relative">
               <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
+                <span className="scale-125">{getRatingBadge(anime.rating)}</span>
+                <span className="scale-125">{getTypeBadge(anime.type)}</span>
                 <FavoriteHeartButton
                   animeId={anime.mal_id}
                   userId={user}
-                  isFavorite={favorites.includes(anime.mal_id)}
-                  onChange={(fav) =>
-                    setFavorites((prev) =>
-                      fav ? [...prev, anime.mal_id] : prev.filter((id) => id !== anime.mal_id)
+                  isFavorite={favorites.includes(String(anime.mal_id))}
+                  onChange={fav =>
+                    setFavorites(prev =>
+                      fav ? [...prev, String(anime.mal_id)] : prev.filter(id => id !== String(anime.mal_id))
                     )
                   }
                 />
@@ -108,16 +113,12 @@ const AnimeList: React.FC = () => {
                     <FaRankingStar className="text-pink-500 text-sm" />
                     <p className="text-sm text-pink-500">{anime.rank}</p>
                   </div>
-
                   <div className="flex items-center justify-center gap-1">
                     <IoStar className="text-amber-300 text-sm" />
                     <p className="text-sm text-pink-100">{anime.score}</p>
                   </div>
                 </div>
-
-                <p className="text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis">
-                  {anime.title}
-                </p>
+                <p className="text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis ">{anime.title}</p>
               </div>
             </div>
           </Link>

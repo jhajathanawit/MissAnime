@@ -20,7 +20,7 @@ interface Anime {
 const Airing: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const { user } = useUser();
 
   useEffect(() => {
@@ -50,7 +50,9 @@ const Airing: React.FC = () => {
     const token = localStorage.getItem("jwtToken");
     if (token && user) {
       getUserFavorites(user, token).then(res => {
-        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+        // ใช้ userAnimeList และ external_anime_id
+        const favArr = Array.isArray(res.data?.userAnimeList) ? res.data.userAnimeList : [];
+        setFavorites(favArr.map((a: any) => a.external_anime_id));
       });
     }
   }, [user]);
@@ -132,10 +134,10 @@ const Airing: React.FC = () => {
                 <FavoriteHeartButton
                   animeId={anime.mal_id}
                   userId={user}
-                  isFavorite={favorites.includes(anime.mal_id)}
+                  isFavorite={favorites.includes(String(anime.mal_id))}
                   onChange={fav =>
                     setFavorites(prev =>
-                      fav ? [...prev, anime.mal_id] : prev.filter(id => id !== anime.mal_id)
+                      fav ? [...prev, String(anime.mal_id)] : prev.filter(id => id !== String(anime.mal_id))
                     )
                   }
                 />

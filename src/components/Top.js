@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import FavoriteHeartButton from "./favorite/favoriteHeartButton";
 import { getUserFavorites } from "./favorite/addFavorite";
 import { useUser } from "../contexts/UserContext";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
 const AnimeList = () => {
     const [animeList, setAnimeList] = useState([]);
     const [visibleRows, setVisibleRows] = useState(1);
@@ -35,7 +36,9 @@ const AnimeList = () => {
         const token = localStorage.getItem("jwtToken");
         if (token && user) {
             getUserFavorites(user, token).then((res) => {
-                setFavorites(res.data?.map((a) => a.mal_id) || []);
+                // ใช้ userAnimeList และ external_anime_id
+                const favArr = Array.isArray(res.data?.userAnimeList) ? res.data.userAnimeList : [];
+                setFavorites(favArr.map((a) => a.external_anime_id));
             });
         }
     }, [user]);
@@ -52,7 +55,7 @@ const AnimeList = () => {
                     : window.innerWidth < 1280
                         ? 6
                         : 8));
-    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsx("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: _jsx(FavoriteHeartButton, { animeId: anime.mal_id, userId: user, isFavorite: favorites.includes(anime.mal_id), onChange: (fav) => setFavorites((prev) => fav ? [...prev, anime.mal_id] : prev.filter((id) => id !== anime.mal_id)) }) }), _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: anime.image_url, alt: anime.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: anime.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: anime.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis", children: anime.title })] })] }) }, anime.mal_id))) }), _jsx("div", { className: "flex justify-center", children: visibleRows *
+    return (_jsxs("div", { children: [_jsx("ul", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2", children: visibleAnimeList.map((anime) => (_jsx(Link, { to: `/packages/${anime.mal_id}`, className: "object-cover m-2", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-300 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(anime.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(anime.type) }), _jsx(FavoriteHeartButton, { animeId: anime.mal_id, userId: user, isFavorite: favorites.includes(String(anime.mal_id)), onChange: fav => setFavorites(prev => fav ? [...prev, String(anime.mal_id)] : prev.filter(id => id !== String(anime.mal_id))) })] }), _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: anime.image_url, alt: anime.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: anime.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: anime.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis ", children: anime.title })] })] }) }, anime.mal_id))) }), _jsx("div", { className: "flex justify-center", children: visibleRows *
                     (window.innerWidth < 640
                         ? 2
                         : window.innerWidth < 768

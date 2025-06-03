@@ -7,7 +7,8 @@ export async function addFavorite(animeId: number, token: string) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ mal_id: animeId }),
+    // ต้องเป็น anime_id และเป็น string
+    body: JSON.stringify({ anime_id: String(animeId) }),
   });
 }
 
@@ -18,9 +19,10 @@ export async function getUserFavorites(userId: number, token: string) {
   return res.json();
 }
 
-export async function deleteFavorite(userId: number, animeId: number, token: string) {
-  return fetch(`${API_BASE}/my-anime/user/${userId}/anime/${animeId}`, {
+export async function deleteFavoriteByExternalId(userId: number, externalAnimeId: string, token: string) {
+  return fetch(`${API_BASE}/my-anime/user/${userId}/anime/${externalAnimeId}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+

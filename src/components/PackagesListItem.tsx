@@ -13,14 +13,16 @@ interface PackagesListItemProps {
 }
 
 export default function PackagesListItem({ pack }: PackagesListItemProps) {
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const { user } = useUser();
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     if (token && user) {
       getUserFavorites(user, token).then((res) => {
-        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+        // ใช้ userAnimeList และ external_anime_id
+        const favArr = Array.isArray(res.data?.userAnimeList) ? res.data.userAnimeList : [];
+        setFavorites(favArr.map((a: any) => a.external_anime_id));
       });
     }
   }, [user]);
@@ -34,10 +36,10 @@ export default function PackagesListItem({ pack }: PackagesListItemProps) {
           <FavoriteHeartButton
             animeId={pack.mal_id}
             userId={user}
-            isFavorite={favorites.includes(pack.mal_id)}
+            isFavorite={favorites.includes(String(pack.mal_id))}
             onChange={(fav) =>
               setFavorites((prev) =>
-                fav ? [...prev, pack.mal_id] : prev.filter((id) => id !== pack.mal_id)
+                fav ? [...prev, String(pack.mal_id)] : prev.filter((id) => id !== String(pack.mal_id))
               )
             }
           />

@@ -3,6 +3,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from '../../components/Message';
+import Favurite from './componentsForUserdashBoard/favorite/favorite';
+import Review from './componentsForUserdashBoard/review/review';
 const UserDashboard = () => {
     const navigate = useNavigate();
     const [currentUserProfile, setCurrentUserProfile] = useState(null);
@@ -79,6 +81,6 @@ const UserDashboard = () => {
                                     localStorage.removeItem('jwtToken');
                                     localStorage.removeItem('currentUser');
                                     navigate('/');
-                                }, children: "\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A" })] })] })] }));
+                                }, children: "\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A" })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "Favorite" }), _jsx("div", { children: _jsx(Favurite, {}) })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "My Review" }), _jsx("div", { children: _jsx(Review, {}) })] })] })] }));
 };
 export default UserDashboard;

@@ -7,13 +7,11 @@ interface AnimeReviewProps {
 }
 interface Review {
   review_id: number;
-  external_anime_id: number;
-  Review_text: string;
-  user: {
-    user_id: number;
-    username: string;
-    user_image?: string;
-  };
+  external_anime_id: string;
+  user_id: number;
+  username: string;
+  review_text: string;
+  created_at: string;
 }
 
 export default function AnimeReview({ mal_id }: AnimeReviewProps) {
@@ -37,7 +35,6 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
           }
         );
         const data = await response.json();
-        // ดึง array จาก data.data.reviews
         setReviews(Array.isArray(data.data?.reviews) ? data.data.reviews : []);
       } catch (error) {
         setReviews([]);
@@ -114,20 +111,11 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
               key={review.review_id}
               className="border-b pb-2 flex flex-col sm:flex-row sm:items-center gap-2"
             >
-              <div className="flex items-center gap-2">
-                {review.user?.user_image && (
-                  <img
-                    src={review.user.user_image}
-                    alt="user"
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                )}
-                <span className="font-semibold text-xs sm:text-sm md:text-base">
-                  {review.user?.username || "Anonymous"}
-                </span>
-              </div>
+              <span className="font-semibold text-xs sm:text-sm md:text-base">
+                {review.username || "Anonymous"}
+              </span>
               <div className="text-gray-700 text-xs sm:text-sm md:text-base flex-1 break-words">
-                {review.Review_text}
+                {review.review_text}
               </div>
             </li>
           ))}

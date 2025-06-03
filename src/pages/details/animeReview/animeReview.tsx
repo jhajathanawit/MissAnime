@@ -5,9 +5,19 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
 interface AnimeReviewProps {
   mal_id: number;
 }
+interface Review {
+  review_id: number;
+  external_anime_id: number;
+  Review_text: string;
+  user: {
+    user_id: number;
+    username: string;
+    user_image?: string;
+  };
+}
 
 export default function AnimeReview({ mal_id }: AnimeReviewProps) {
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -15,28 +25,28 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
 
   // ดึงรีวิวทั้งหมด
   useEffect(() => {
-  const fetchAnimeReviews = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const response = await fetch(
-        `${API_BASE}/reviews/anime/${mal_id}`,
-        {
-          headers: {
-            'Authorization': token ? `Bearer ${token}` : ''
+    const fetchAnimeReviews = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+        const response = await fetch(
+          `${API_BASE}/reviews/anime/${mal_id}`,
+          {
+            headers: {
+              'Authorization': token ? `Bearer ${token}` : ''
+            }
           }
-        }
-      );
-      const data = await response.json();
-      // ดึง array จาก data.data.reviews
-      setReviews(Array.isArray(data.data?.reviews) ? data.data.reviews : []);
-    } catch (error) {
-      setReviews([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchAnimeReviews();
-}, [mal_id]);
+        );
+        const data = await response.json();
+        // ดึง array จาก data.data.reviews
+        setReviews(Array.isArray(data.data?.reviews) ? data.data.reviews : []);
+      } catch (error) {
+        setReviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnimeReviews();
+  }, [mal_id]);
 
   // ส่งรีวิวใหม่
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,9 +109,9 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
         <div className="text-gray-500 text-sm sm:text-base">No reviews found.</div>
       ) : (
         <ul className="space-y-4">
-          {reviews.map((review, idx) => (
+          {reviews.map((review) => (
             <li
-              key={review.review_id || review.mal_id || idx}
+              key={review.review_id}
               className="border-b pb-2 flex flex-col sm:flex-row sm:items-center gap-2"
             >
               <div className="flex items-center gap-2">

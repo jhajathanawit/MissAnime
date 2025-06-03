@@ -25,15 +25,12 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
   useEffect(() => {
     const fetchAnimeReviews = async () => {
       try {
-        const token = localStorage.getItem('jwtToken');
-        const response = await fetch(
-          `${API_BASE}/reviews/anime/${mal_id}`,
-          {
-            headers: {
-              'Authorization': token ? `Bearer ${token}` : ''
-            }
-          }
-        );
+        const token = localStorage.getItem("jwtToken");
+        const response = await fetch(`${API_BASE}/reviews/anime/${mal_id}`, {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        });
         const data = await response.json();
         setReviews(Array.isArray(data.data?.reviews) ? data.data.reviews : []);
       } catch (error) {
@@ -51,17 +48,17 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
     setSubmitting(true);
     setError(null);
     try {
-      const token = localStorage.getItem('jwtToken');
+      const token = localStorage.getItem("jwtToken");
       const response = await fetch(`${API_BASE}/reviews`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : ''
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify({
           external_anime_id: String(mal_id),
-          Review_text: reviewText
-        })
+          Review_text: reviewText,
+        }),
       });
       if (!response.ok) {
         const errData = await response.json();
@@ -79,18 +76,25 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
 
   return (
     <div className="bg-white p-2 sm:p-4 md:p-6 lg:p-8 rounded shadow max-w-full">
-      <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-pink-600">Anime Reviews</h2>
+      <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-pink-600">
+        Anime Reviews
+      </h2>
       {/* ฟอร์มเพิ่มรีวิว */}
-      <form onSubmit={handleSubmit} className="mb-6 flex flex-col gap-2 sm:gap-3 md:gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="mb-6 flex flex-col gap-2 sm:gap-3 md:gap-4"
+      >
         <textarea
           className="border rounded p-2 w-full resize-none text-sm sm:text-base md:text-lg"
           rows={3}
           placeholder="เขียนรีวิวของคุณ..."
           value={reviewText}
-          onChange={e => setReviewText(e.target.value)}
+          onChange={(e) => setReviewText(e.target.value)}
           required
         />
-        {error && <div className="text-red-500 text-xs sm:text-sm">{error}</div>}
+        {error && (
+          <div className="text-red-500 text-xs sm:text-sm">{error}</div>
+        )}
         <button
           type="submit"
           disabled={submitting || !reviewText.trim()}
@@ -103,7 +107,9 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
       {loading ? (
         <div>Loading...</div>
       ) : reviews.length === 0 ? (
-        <div className="text-gray-500 text-sm sm:text-base">No reviews found.</div>
+        <div className="text-gray-500 text-sm sm:text-base">
+          No reviews found.
+        </div>
       ) : (
         <ul className="space-y-4">
           {reviews.map((review) => (
@@ -111,14 +117,14 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
               key={review.review_id}
               className="border-b pb-2 flex flex-col   gap-2"
             >
-              <div className="flex justify-between">
-              <span className="font-semibold text-xs sm:text-sm md:text-base">
-                {review.username || "Anonymous"}
-              </span>
-              <span className="text-gray-700 text-[6px] sm:text-[10px]  flex-1 break-words">
-                {review.created_at}
-              </span>              
-            </div>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-xs sm:text-sm md:text-base">
+                  {review.username || "Anonymous"}
+                </span>
+                <span className="text-gray-700 text-[8px] sm:text-[12px] md:text-sm text-right">
+                  {new Date(review.created_at).toLocaleString()}
+                </span>
+              </div>
               <div className="text-gray-700 text-xs sm:text-sm  flex-1 break-words">
                 {review.review_text}
               </div>

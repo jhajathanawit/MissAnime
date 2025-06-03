@@ -58,8 +58,7 @@ const UserDashboard = () => {
             return res.json();
         })
             .then((data) => {
-            console.log('API response:', data);
-            setCurrentUserProfile(data.data.user); // <-- แก้ตรงนี้
+            setCurrentUserProfile(data.data.user);
             displayMessage('โหลดข้อมูลโปรไฟล์สำเร็จ!', 'success');
         })
             .catch((error) => {

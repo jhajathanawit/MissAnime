@@ -70,8 +70,8 @@ const UserDashboard: React.FC = () => {
         return res.json();
       })
       .then((data: any) => {
-        console.log('API response:', data);
-        setCurrentUserProfile(data.data.user); // <-- แก้ตรงนี้
+        
+        setCurrentUserProfile(data.data.user); 
         displayMessage('โหลดข้อมูลโปรไฟล์สำเร็จ!', 'success');
       })
       .catch((error: Error) => {

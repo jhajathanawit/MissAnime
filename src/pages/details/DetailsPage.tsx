@@ -3,6 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import Related from "./related/related";
+import AnimeReview from "./animeReview/animeReview"
+
 
 export default function DetailsPage() {
   const { details } = useLoaderData() as detailsLoaderResult;
@@ -87,6 +89,9 @@ export default function DetailsPage() {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="w-full mb-4">
+            <AnimeReview key={details.data.mal_id} mal_id={details.data.mal_id} />
           </div>
           <div className="flex flex-col w-full mb-4">
             <h3 className="text-pink-100 text-2xl font-bold p-4">

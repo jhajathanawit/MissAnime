@@ -28,7 +28,6 @@ export default function PackagesListItem({ pack }: PackagesListItemProps) {
   return (
     <Link to={`/packages/${pack.mal_id}`} className="object-cover m-4">
       <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
-        {/* Badge ด้านบน */}
         <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
           <span className="scale-125">{getRatingBadge(pack.rating)}</span>
           <span className="scale-125">{getTypeBadge(pack.type)}</span>

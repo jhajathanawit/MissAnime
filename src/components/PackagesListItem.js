@@ -1,32 +1,22 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
+import { useEffect, useState } from "react";
+import FavoriteHeartButton from "./favorite/favoriteHeartButton";
+import { getUserFavorites } from "./favorite/addFavorite";
+import { useUser } from "../contexts/UserContext";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
-import { AiFillHeart } from "react-icons/ai";
-import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
-import { useState } from "react";
 export default function PackagesListItem({ pack }) {
-    const [favorites, setFavorites] = useState(() => {
-        const stored = localStorage.getItem("favorite_anime_ids");
-        return stored ? JSON.parse(stored) : [];
-    });
-    const navigate = useNavigate();
-    const handleToggleFavorite = (animeId) => {
-        const token = localStorage.getItem('jwtToken');
-        if (!token) {
-            navigate('/login');
-            return;
+    const [favorites, setFavorites] = useState([]);
+    const { user } = useUser();
+    useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        if (token && user) {
+            getUserFavorites(user, token).then((res) => {
+                setFavorites(res.data?.map((a) => a.mal_id) || []);
+            });
         }
-        setFavorites((prev) => prev.includes(animeId)
-            ? prev.filter((id) => id !== animeId)
-            : [...prev, animeId]);
-        // คุณสามารถเพิ่ม fetch ไปยัง API ได้ที่นี่ถ้าต้องการ
-    };
-    return (_jsx(Link, { to: `/packages/${pack.mal_id}`, className: "object-cover m-4", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(pack.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(pack.type) }), _jsx("button", { type: "button", className: "focus:outline-none", onClick: e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleToggleFavorite(pack.mal_id);
-                            }, children: _jsx(AiFillHeart, { className: `w-9 h-9 transition-colors duration-200 ${favorites.includes(pack.mal_id)
-                                    ? "text-pink-500"
-                                    : "text-white"}` }) })] }), _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: pack.images.webp.image_url, alt: pack.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: pack.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: pack.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis", children: pack.title })] })] }) }));
+    }, [user]);
+    return (_jsx(Link, { to: `/packages/${pack.mal_id}`, className: "object-cover m-4", children: _jsxs("div", { className: "p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative", children: [_jsxs("div", { className: "p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10", children: [_jsx("span", { className: "scale-125", children: getRatingBadge(pack.rating) }), _jsx("span", { className: "scale-125", children: getTypeBadge(pack.type) }), _jsx(FavoriteHeartButton, { animeId: pack.mal_id, userId: user, isFavorite: favorites.includes(pack.mal_id), onChange: (fav) => setFavorites((prev) => fav ? [...prev, pack.mal_id] : prev.filter((id) => id !== pack.mal_id)) })] }), _jsxs("div", { className: "grid grid-cols-1 w-40 gap-2", children: [_jsx("div", { className: "mb-2 flex justify-center object-cover", children: _jsx("img", { src: pack.images.webp.image_url, alt: pack.title, className: "w-40 h-48 object-cover" }) }), _jsxs("div", { className: "flex flex-cols justify-between", children: [_jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(FaRankingStar, { className: "text-pink-500 text-sm" }), _jsx("p", { className: "text-sm text-pink-500", children: pack.rank })] }), _jsxs("div", { className: "flex items-center justify-center gap-1", children: [_jsx(IoStar, { className: "text-amber-300 text-sm" }), _jsx("p", { className: "text-sm text-pink-100", children: pack.score })] })] }), _jsx("p", { className: "text-sm text-pink-100 not-hover:w-32 not-hover:overflow-hidden not-hover:whitespace-nowrap not-hover:text-ellipsis", children: pack.title })] })] }) }));
 }

@@ -1,35 +1,29 @@
 import type { PackagesSummary } from "../api/types/packagesSummary";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
+import React, { useEffect, useState } from "react";
+import FavoriteHeartButton from "./favorite/favoriteHeartButton";
+import { getUserFavorites } from "./favorite/addFavorite";
+import { useUser } from "../contexts/UserContext";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
-import { AiFillHeart } from "react-icons/ai";
-import { getRatingBadge, getTypeBadge } from "./utils/animeBadge";
-import React, { useState } from "react";
 
 interface PackagesListItemProps {
   pack: PackagesSummary;
 }
 
 export default function PackagesListItem({ pack }: PackagesListItemProps) {
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const stored = localStorage.getItem("favorite_anime_ids");
-    return stored ? JSON.parse(stored) : [];
-  });
-  const navigate = useNavigate();
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const { user } = useUser();
 
-  const handleToggleFavorite = (animeId: number) => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      navigate('/login');
-      return;
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (token && user) {
+      getUserFavorites(user, token).then((res) => {
+        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+      });
     }
-    setFavorites((prev) =>
-      prev.includes(animeId)
-        ? prev.filter((id) => id !== animeId)
-        : [...prev, animeId]
-    );
-    // คุณสามารถเพิ่ม fetch ไปยัง API ได้ที่นี่ถ้าต้องการ
-  };
+  }, [user]);
 
   return (
     <Link to={`/packages/${pack.mal_id}`} className="object-cover m-4">
@@ -38,23 +32,16 @@ export default function PackagesListItem({ pack }: PackagesListItemProps) {
         <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
           <span className="scale-125">{getRatingBadge(pack.rating)}</span>
           <span className="scale-125">{getTypeBadge(pack.type)}</span>
-          <button
-            type="button"
-            className="focus:outline-none"
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleToggleFavorite(pack.mal_id);
-            }}
-          >
-            <AiFillHeart
-              className={`w-9 h-9 transition-colors duration-200 ${
-                favorites.includes(pack.mal_id)
-                  ? "text-pink-500"
-                  : "text-white"
-              }`}
-            />
-          </button>
+          <FavoriteHeartButton
+            animeId={pack.mal_id}
+            userId={user}
+            isFavorite={favorites.includes(pack.mal_id)}
+            onChange={(fav) =>
+              setFavorites((prev) =>
+                fav ? [...prev, pack.mal_id] : prev.filter((id) => id !== pack.mal_id)
+              )
+            }
+          />
         </div>
         <div className="grid grid-cols-1 w-40 gap-2">
           <div className="mb-2 flex justify-center object-cover">

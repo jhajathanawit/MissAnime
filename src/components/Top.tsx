@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { getRatingBadge, getTypeBadge } from "./utils/animeBadge"; // เพิ่มบรรทัดนี้
-import { AiFillHeart } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import FavoriteHeartButton from "./favorite/favoriteHeartButton";
+import { getUserFavorites } from "./favorite/addFavorite";
+import { useUser } from "../contexts/UserContext";
 
 interface Anime {
   mal_id: number;
@@ -21,14 +21,12 @@ const AnimeList: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchAnimeData = async () => {
       const response = await fetch("https://api.jikan.moe/v4/top/anime");
       const data = await response.json();
-      console.log(data, "top anime");
-
       if (data && data.data && data.data.length > 0) {
         const top10Anime = data.data.slice(0, 14);
         setAnimeList(
@@ -45,23 +43,17 @@ const AnimeList: React.FC = () => {
         );
       }
     };
-
     fetchAnimeData();
   }, []);
 
-  const handleToggleFavorite = async (animeId: number) => {
+  useEffect(() => {
     const token = localStorage.getItem("jwtToken");
-    if (!token) {
-      navigate("/login");
-      return;
+    if (token && user) {
+      getUserFavorites(user, token).then((res) => {
+        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+      });
     }
-    // สามารถส่งไป API ได้ที่นี่ถ้าต้องการ
-    setFavorites((prev) =>
-      prev.includes(animeId)
-        ? prev.filter((id) => id !== animeId)
-        : [...prev, animeId]
-    );
-  };
+  }, [user]);
 
   const handleShowMore = () => {
     setVisibleRows(animeList.length);
@@ -91,28 +83,18 @@ const AnimeList: React.FC = () => {
             className="object-cover m-2"
           >
             <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
-              {/* เพิ่ม badge ด้านบน */}
               <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
-                              <span className="scale-125">{getRatingBadge(anime.rating)}</span>
-                              <span className="scale-125">{getTypeBadge(anime.type)}</span>
-                              <button
-                                type="button"
-                                className="focus:outline-none"
-                                onClick={e => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  handleToggleFavorite(anime.mal_id);
-                                }}
-                              >
-                                <AiFillHeart
-                                  className={`w-9 h-9 transition-colors duration-200 ${
-                                    favorites.includes(anime.mal_id)
-                                      ? "text-pink-500"
-                                      : "text-white"
-                                  }`}
-                                />
-                              </button>
-                            </div>
+                <FavoriteHeartButton
+                  animeId={anime.mal_id}
+                  userId={user}
+                  isFavorite={favorites.includes(anime.mal_id)}
+                  onChange={(fav) =>
+                    setFavorites((prev) =>
+                      fav ? [...prev, anime.mal_id] : prev.filter((id) => id !== anime.mal_id)
+                    )
+                  }
+                />
+              </div>
               <div className="grid grid-cols-1 w-40 gap-2">
                 <div className="mb-2 flex justify-center object-cover">
                   <img

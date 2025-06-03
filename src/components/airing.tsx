@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import { AiFillHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import FavoriteHeartButton from "./favorite/favoriteHeartButton";
+import { getUserFavorites } from "./favorite/addFavorite";
+import { useUser } from "../contexts/UserContext";
 
 interface Anime {
   mal_id: number;
@@ -12,23 +14,21 @@ interface Anime {
   rank?: number;
   score?: number;
   type?: string;
-  rating?:string;
+  rating?: string;
 }
 
 const Airing: React.FC = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchAnimeData = async () => {
       const response = await fetch("https://api.jikan.moe/v4/anime?status=airing");
       const data = await response.json();
-
       if (data && data.data && data.data.length > 0) {
         const top10Anime = data.data.slice(0, 14);
-        
         setAnimeList(
           top10Anime.map((anime: any) => ({
             mal_id: anime.mal_id,
@@ -43,9 +43,17 @@ const Airing: React.FC = () => {
         );
       }
     };
-
     fetchAnimeData();
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (token && user) {
+      getUserFavorites(user, token).then(res => {
+        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+      });
+    }
+  }, [user]);
 
   const handleShowMore = () => {
     setVisibleRows(animeList.length);
@@ -108,33 +116,6 @@ const Airing: React.FC = () => {
     );
   }
 
-  // ฟังก์ชัน favorite
-  const handleToggleFavorite = async (animeId: number) => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      navigate('/MissAnime/login');
-      return;
-    }
-    // ส่ง mal_id ไปยัง API
-    try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/favorite`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ mal_id: animeId }),
-      });
-      setFavorites((prev) =>
-        prev.includes(animeId)
-          ? prev.filter((id) => id !== animeId)
-          : [...prev, animeId]
-      );
-    } catch (e) {
-      alert("เกิดข้อผิดพลาดในการบันทึก favorite");
-    }
-  };
-
   return (
     <div>
       <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 items-center justify-center gap-2">
@@ -148,23 +129,16 @@ const Airing: React.FC = () => {
               <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
                 <span className="scale-125">{getRatingBadge(anime.rating)}</span>
                 <span className="scale-125">{getTypeBadge(anime.type)}</span>
-                <button
-                  type="button"
-                  className="focus:outline-none"
-                  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleToggleFavorite(anime.mal_id);
-                  }}
-                >
-                  <AiFillHeart
-                    className={`w-9 h-9 transition-colors duration-200 ${
-                      favorites.includes(anime.mal_id)
-                        ? "text-pink-500"
-                        : "text-white"
-                    }`}
-                  />
-                </button>
+                <FavoriteHeartButton
+                  animeId={anime.mal_id}
+                  userId={user}
+                  isFavorite={favorites.includes(anime.mal_id)}
+                  onChange={fav =>
+                    setFavorites(prev =>
+                      fav ? [...prev, anime.mal_id] : prev.filter(id => id !== anime.mal_id)
+                    )
+                  }
+                />
               </div>
               <div className="grid grid-cols-1 w-40 gap-2">
                 <div className="mb-2 flex justify-center object-cover">

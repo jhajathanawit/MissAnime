@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
-import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import FavoriteHeartButton from "../../../components/favorite/favoriteHeartButton";
+import { getUserFavorites } from "../../../components/favorite/addFavorite";
+import { useUser } from "../../../contexts/UserContext";
 import { getRatingBadge, getTypeBadge } from "../../../components/utils/animeBadge"; // เพิ่มบรรทัดนี้
 
 interface Anime {
@@ -23,6 +25,8 @@ interface RelatedProps {
 const Related: React.FC<RelatedProps> = ({ type }) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [visibleRows, setVisibleRows] = useState(1);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchAnimeData = async () => {
@@ -50,6 +54,15 @@ const Related: React.FC<RelatedProps> = ({ type }) => {
     fetchAnimeData();
   }, [type]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (token && user) {
+      getUserFavorites(user, token).then(res => {
+        setFavorites(res.data?.map((a: any) => a.mal_id) || []);
+      });
+    }
+  }, [user]);
+
   const handleShowMore = () => {
     setVisibleRows((prev) => prev + 1);
   };
@@ -68,24 +81,6 @@ const Related: React.FC<RelatedProps> = ({ type }) => {
         : 8)
   );
 
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const stored = localStorage.getItem("favorite_anime_ids");
-    return stored ? JSON.parse(stored) : [];
-  });
-
-  function handleToggleFavorite(mal_id: number) {
-    setFavorites(prev => {
-      let updated;
-      if (prev.includes(mal_id)) {
-        updated = prev.filter(id => id !== mal_id);
-      } else {
-        updated = [...prev, mal_id];
-      }
-      localStorage.setItem("favorite_anime_ids", JSON.stringify(updated));
-      return updated;
-    });
-  }
-
   return (
     <div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-8 gap-4">
@@ -98,26 +93,19 @@ const Related: React.FC<RelatedProps> = ({ type }) => {
             <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
               {/* Badge ด้านบน */}
               <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
-                              <span className="scale-125">{getRatingBadge(anime.rating)}</span>
-                              <span className="scale-125">{getTypeBadge(anime.type)}</span>
-                              <button
-                                type="button"
-                                className="focus:outline-none"
-                                onClick={e => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  handleToggleFavorite(anime.mal_id);
-                                }}
-                              >
-                                <AiFillHeart
-                                  className={`w-9 h-9 transition-colors duration-200 ${
-                                    favorites.includes(anime.mal_id)
-                                      ? "text-pink-500"
-                                      : "text-white"
-                                  }`}
-                                />
-                              </button>
-                            </div>
+                <span className="scale-125">{getRatingBadge(anime.rating)}</span>
+                <span className="scale-125">{getTypeBadge(anime.type)}</span>
+                <FavoriteHeartButton
+                  animeId={anime.mal_id}
+                  userId={user}
+                  isFavorite={favorites.includes(anime.mal_id)}
+                  onChange={fav =>
+                    setFavorites(prev =>
+                      fav ? [...prev, anime.mal_id] : prev.filter(id => id !== anime.mal_id)
+                    )
+                  }
+                />
+              </div>
               <div className="grid grid-cols-1 w-40 gap-2">
                 <div className="mb-2 flex justify-center object-cover">
                   <img

@@ -15,34 +15,28 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
 
   // ดึงรีวิวทั้งหมด
   useEffect(() => {
-    const fetchAnimeReviews = async () => {
-      try {
-        const token = localStorage.getItem('jwtToken');
-        const response = await fetch(
-          `${API_BASE}/reviews/anime/${mal_id}`,
-          {
-            headers: {
-              'Authorization': token ? `Bearer ${token}` : ''
-            }
+  const fetchAnimeReviews = async () => {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const response = await fetch(
+        `${API_BASE}/reviews/anime/${mal_id}`,
+        {
+          headers: {
+            'Authorization': token ? `Bearer ${token}` : ''
           }
-        );
-        const data = await response.json();
-        // ตรวจสอบว่า data.data เป็น array จริงหรือไม่
-        if (Array.isArray(data.data)) {
-          setReviews(data.data);
-        } else if (data.data) {
-          setReviews([data.data]); // ถ้าเป็น object เดี่ยว
-        } else {
-          setReviews([]);
         }
-      } catch (error) {
-        setReviews([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAnimeReviews();
-  }, [mal_id]);
+      );
+      const data = await response.json();
+      // ดึง array จาก data.data.reviews
+      setReviews(Array.isArray(data.data?.reviews) ? data.data.reviews : []);
+    } catch (error) {
+      setReviews([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchAnimeReviews();
+}, [mal_id]);
 
   // ส่งรีวิวใหม่
   const handleSubmit = async (e: React.FormEvent) => {

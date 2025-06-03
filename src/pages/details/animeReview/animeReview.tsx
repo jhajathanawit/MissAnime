@@ -109,13 +109,13 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
           {reviews.map((review) => (
             <li
               key={review.review_id}
-              className="border-b pb-2 flex flex-row sm:items-center  gap-2"
+              className="border-b pb-2 flex flex-col sm:items-center  gap-2"
             >
               <div>
               <span className="font-semibold text-xs sm:text-sm md:text-base">
                 {review.username || "Anonymous"}
               </span>
-              <span className="text-gray-700 text-xs sm:text-sm md:text-base flex-1 break-words">
+              <span className="text-gray-700 text-[8px] sm:text-xs md:text-base flex-1 break-words">
                 {review.created_at}
               </span>              
             </div>

@@ -1,37 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { RiUserShared2Line } from "react-icons/ri";
 import { useUser } from "../../contexts/UserContext";
 
-// ใช้ชื่อ interface User (ตัวใหญ่) ให้ตรงกับ context
 interface User {
   user_id: number;
   username?: string;
-  user_image?: string;
+  user_image?: string | null;
 }
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  // ระบุ type user เป็น User | null เพื่อให้ type ตรง
   const { user } = useUser() as { user: User | null };
+  const [profile, setProfile] = useState<User | null>(null);
 
-  // ถ้า login แล้วไปหน้า dashboard, ถ้าไม่ login ไป /login
-  const userLink = user ? `/users/${user.user_id}` : "/login";
+  const userLink = user ? `/users/${user}` : "/login";
 
-  // ส่วนแสดงรูป/username หรือ icon
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (user) {
+        try {
+          const token = localStorage.getItem("jwtToken");
+          const res = await fetch(`https://miss-anime-api.onrender.com/api/v1/users/${user}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await res.json();
+          setProfile(data?.data?.user || null);
+        } catch {
+          setProfile(null);
+        }
+      } else {
+        setProfile(null);
+      }
+    };
+    fetchProfile();
+  }, [user]);
+
   let userDisplay;
-  if (user) {
-    userDisplay = user.user_image ? (
-      <img
-        src={user.user_image}
-        alt="profile"
-        className="inline-block w-8 h-8 rounded-full object-cover border-2 border-pink-400"
-      />
-    ) : (
-      <span className="w-8 h-8 rounded-full bg-pink-400 text-white text-lg font-bold flex items-center justify-center">
-        {user.username ? user.username[0].toUpperCase() : "U"}
-      </span>
-    );
+  if (profile) {
+    // ถ้า user_image เป็น default-profile.jpg หรือไม่มีรูป ให้แสดงตัวอักษรแรกของ username
+    if (!profile.user_image || profile.user_image === "https://example.com/default-profile.jpg") {
+      userDisplay = (
+        <span className="w-8 h-8 rounded-full bg-pink-400 text-white text-lg font-bold flex items-center justify-center">
+          {profile.username ? profile.username[0].toUpperCase() : "U"}
+        </span>
+      );
+    } else {
+      userDisplay = (
+        <img
+          src={profile.user_image}
+          alt="profile"
+          className="inline-block w-8 h-8 rounded-full object-cover border-2 border-pink-400"
+        />
+      );
+    }
   } else {
     userDisplay = <RiUserShared2Line className="inline-block mr-1" />;
   }
@@ -50,7 +74,7 @@ function Navbar() {
           <Link to="/contact">Contact</Link>
         </li>
         <li>
-          <Link to={userLink}>
+          <Link to="/login">
             {userDisplay}
           </Link>
         </li>

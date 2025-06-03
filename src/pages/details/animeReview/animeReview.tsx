@@ -117,9 +117,7 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
               </span>
               <span className="text-gray-700 text-xs sm:text-sm md:text-base flex-1 break-words">
                 {review.created_at}
-              </span>
-
-              
+              </span>              
             </div>
               <div className="text-gray-700 text-xs sm:text-sm md:text-base flex-1 break-words">
                 {review.review_text}

@@ -131,16 +131,18 @@ const Airing: React.FC = () => {
               <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
                 <span className="scale-125">{getRatingBadge(anime.rating)}</span>
                 <span className="scale-125">{getTypeBadge(anime.type)}</span>
-                <FavoriteHeartButton
-                  animeId={anime.mal_id}
-                  userId={user}
-                  isFavorite={favorites.includes(String(anime.mal_id))}
-                  onChange={fav =>
-                    setFavorites(prev =>
-                      fav ? [...prev, String(anime.mal_id)] : prev.filter(id => id !== String(anime.mal_id))
-                    )
-                  }
-                />
+                {user !== null && (
+                  <FavoriteHeartButton
+                    animeId={anime.mal_id}
+                    userId={user}
+                    isFavorite={favorites.includes(String(anime.mal_id))}
+                    onChange={fav =>
+                      setFavorites(prev =>
+                        fav ? [...prev, String(anime.mal_id)] : prev.filter(id => id !== String(anime.mal_id))
+                      )
+                    }
+                  />
+                )}
               </div>
               <div className="grid grid-cols-1 w-40 gap-2">
                 <div className="mb-2 flex justify-center object-cover">

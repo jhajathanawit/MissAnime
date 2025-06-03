@@ -27,22 +27,26 @@ export default function PackagesListItem({ pack }: PackagesListItemProps) {
     }
   }, [user]);
 
+  const handleFavoriteChange = (fav: boolean) => {
+    setFavorites((prev) =>
+      fav ? [...prev, String(pack.mal_id)] : prev.filter((id) => id !== String(pack.mal_id))
+    );
+  };
+
   return (
     <Link to={`/packages/${pack.mal_id}`} className="object-cover m-4">
       <div className="p-4 flex justify-between items-center text-xl font-bold rounded-[16px] bg-[#1f293a50] hover:bg-[#546b94] hover:scale-110 transition duration-800 h-full relative">
         <div className="p-3 items-center absolute top-0 left-0 right-0 flex justify-evenly gap-4 mx-auto z-10">
           <span className="scale-125">{getRatingBadge(pack.rating)}</span>
           <span className="scale-125">{getTypeBadge(pack.type)}</span>
-          <FavoriteHeartButton
-            animeId={pack.mal_id}
-            userId={user}
-            isFavorite={favorites.includes(String(pack.mal_id))}
-            onChange={(fav) =>
-              setFavorites((prev) =>
-                fav ? [...prev, String(pack.mal_id)] : prev.filter((id) => id !== String(pack.mal_id))
-              )
-            }
-          />
+          {user !== null && (
+            <FavoriteHeartButton
+              animeId={pack.mal_id}
+              userId={user}
+              isFavorite={favorites.includes(String(pack.mal_id))}
+              onChange={handleFavoriteChange}
+            />
+          )}
         </div>
         <div className="grid grid-cols-1 w-40 gap-2">
           <div className="mb-2 flex justify-center object-cover">

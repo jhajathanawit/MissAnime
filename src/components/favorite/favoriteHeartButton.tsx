@@ -6,9 +6,9 @@ import { addFavorite, getUserFavorites, deleteFavoriteByExternalId } from "./add
 
 interface Props {
   animeId: number;
-  userId: number | null;
+  userId: number | null;  // อนุญาตให้เป็น null ได้
   isFavorite: boolean;
-  onChange: (fav: boolean) => void;
+  onChange: (newState: boolean) => void;
 }
 
 const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onChange }) => {
@@ -21,31 +21,23 @@ const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onC
     e.preventDefault();
     e.stopPropagation();
 
-    if (!user) {
+    if (!userId) {
       navigate("/login");
       return;
     }
 
     setLoading(true);
     const token = localStorage.getItem("jwtToken");
-    const favs = await getUserFavorites(userId!, token!);
-    // ใช้ userAnimeList และ external_anime_id
-    const favArr = Array.isArray(favs.data?.userAnimeList) ? favs.data.userAnimeList : [];
-    const found = favArr.some((a: any) => a.external_anime_id === String(animeId));
-    if (found) {
-      setShowModal(true);
-    } else {
-      const res = await addFavorite(animeId, token!);
-      if (!res.ok) {
-        const err = await res.json();
-        console.error("Add favorite error:", err);
-        alert(err.message || "เพิ่มลิสต์ไม่สำเร็จ");
-        setLoading(false);
-        return;
-      }
-      onChange(true);
+    if (!token) return;
+
+    try {
+      await addFavorite(animeId.toString(), token);
+      onChange(!isFavorite);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleDelete = async () => {

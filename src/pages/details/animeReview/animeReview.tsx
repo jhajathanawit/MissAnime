@@ -46,34 +46,35 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
 
   // ส่งรีวิวใหม่
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const response = await fetch(`${API_BASE}/reviews`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : ''
-        },
-        body: JSON.stringify({
-          anime_id: mal_id,
-          review: reviewText
-        })
-      });
-      if (!response.ok) {
-        throw new Error("Failed to submit review");
-      }
-      const data = await response.json();
-      setReviews([data.data, ...reviews]); // เพิ่มรีวิวใหม่ด้านบน
-      setReviewText("");
-    } catch (err: any) {
-      setError(err.message || "Error submitting review");
-    } finally {
-      setSubmitting(false);
+  e.preventDefault();
+  setSubmitting(true);
+  setError(null);
+  try {
+    const token = localStorage.getItem('jwtToken');
+    const response = await fetch(`${API_BASE}/reviews`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+      },
+      body: JSON.stringify({
+        external_anime_id: String(mal_id),
+        Review_text: reviewText
+      })
+    });
+    if (!response.ok) {
+      const errData = await response.json();
+      throw new Error(errData.message || "Failed to submit review");
     }
-  };
+    const data = await response.json();
+    setReviews([data.data, ...reviews]);
+    setReviewText("");
+  } catch (err: any) {
+    setError(err.message || "Error submitting review");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="bg-white p-2 sm:p-4 md:p-6 lg:p-8 rounded shadow max-w-full">

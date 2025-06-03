@@ -139,11 +139,11 @@ const UserDashboard: React.FC = () => {
         </div>
         <div>
           <h3 className="text-xl font-semibold mt-8 mb-4 text-gray-700">Favorite</h3>
-          <div><Favurite /></div>
+          <div><Favurite key={currentUserProfile.user_id} /></div>
         </div>
         <div>
           <h3 className="text-xl font-semibold mt-8 mb-4 text-gray-700">My Review</h3>
-          <div><Review /></div>
+          <div><Review key={currentUserProfile.user_id}/></div>
         </div>
       </div>
     </div>

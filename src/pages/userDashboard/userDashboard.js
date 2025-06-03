@@ -81,6 +81,6 @@ const UserDashboard = () => {
                                     localStorage.removeItem('jwtToken');
                                     localStorage.removeItem('currentUser');
                                     navigate('/');
-                                }, children: "\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A" })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "Favorite" }), _jsx("div", { children: _jsx(Favurite, {}) })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "My Review" }), _jsx("div", { children: _jsx(Review, {}) })] })] })] }));
+                                }, children: "\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A" })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "Favorite" }), _jsx("div", { children: _jsx(Favurite, {}, currentUserProfile.user_id) })] }), _jsxs("div", { children: [_jsx("h3", { className: "text-xl font-semibold mt-8 mb-4 text-gray-700", children: "My Review" }), _jsx("div", { children: _jsx(Review, {}, currentUserProfile.user_id) })] })] })] }));
 };
 export default UserDashboard;

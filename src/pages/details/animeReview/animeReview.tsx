@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
+
 interface AnimeReviewProps {
   mal_id: number;
 }
@@ -17,7 +19,7 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
       try {
         const token = localStorage.getItem('jwtToken');
         const response = await fetch(
-          `/api/v1/reviews/anime/${mal_id}`,
+          `${API_BASE}/reviews/anime/${mal_id}`,
           {
             headers: {
               'Authorization': token ? `Bearer ${token}` : ''
@@ -42,7 +44,7 @@ export default function AnimeReview({ mal_id }: AnimeReviewProps) {
     setError(null);
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await fetch('/api/v1/reviews', {
+      const response = await fetch(`${API_BASE}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

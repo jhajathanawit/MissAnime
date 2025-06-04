@@ -22,7 +22,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
     const hasUppercase = /[A-Z]/.test(pass);
     const hasLowercase = /[a-z]/.test(pass);
     const hasNumber = /[0-9]/.test(pass);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>-_]/.test(pass);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>_-]/.test(pass);
 
     if (!minLength) return 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร';
     if (!hasUppercase) return 'ต้องมีตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว';

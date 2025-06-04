@@ -41,35 +41,31 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br  px-2">
-      <div className="bg-white p-4 sm:p-8 rounded-lg shadow-xl w-full max-w-[95vw] sm:max-w-md md:max-w-2xl lg:max-w-3xl">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-pink-500 text-center mb-8">
-          MissAnime
-        </h1>
-
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br">
+      <div className="bg-[#1d0a3dc2] rounded-lg shadow-xl w-full max-w-[95vw] sm:max-w-md md:max-w-2xl lg:max-w-3xl">
         {isLoginMode ? (
           <>
             <AuthForm type="login" onSubmit={handleLogin} />
-            <p className="mt-4 text-center text-gray-600 text-sm sm:text-base">
-              Don't have an account?{' '}
+            <p className="pb-20 pt-[-8rem] text-center text-gray-300 text-sm">
+              ยังไม่มีบัญชีผู้ใช้?{' '}
               <button
                 onClick={() => setIsLoginMode(false)}
-                className="text-blue-600 hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
-                Register here
+                ลงทะเบียนที่นี่
               </button>
             </p>
           </>
         ) : (
           <>
             <AuthForm type="register" onSubmit={handleRegister} />
-            <p className="mt-4 text-center text-gray-600 text-sm sm:text-base">
-              Already have an account?{' '}
+            <p className="pb-20 pt-[-8rem]  text-center text-gray-300 text-sm">
+              มีบัญชีผู้ใช้แล้ว?{' '}
               <button
                 onClick={() => setIsLoginMode(true)}
-                className="text-blue-600 hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
-                Login here
+                เข้าสู่ระบบที่นี่
               </button>
             </p>
           </>

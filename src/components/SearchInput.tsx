@@ -16,8 +16,11 @@ export default function SearchInput() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!tempTerm.trim()) return; // ไม่ค้นหาถ้าช่องค้นหาว่างเปล่า
+
     setTerm(tempTerm);
-    navigate(searchParams);
+    const params = `search?q=${tempTerm}&type=${type}${rating}&order_by=scored_by&sort=${score}`;
+    navigate(params);
   };
 
   const selectStyle =

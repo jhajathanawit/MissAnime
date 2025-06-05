@@ -31,10 +31,21 @@ const FavoriteHeartButton: React.FC<Props> = ({ animeId, userId, isFavorite, onC
     if (!token) return;
 
     try {
-      await addFavorite(animeId.toString(), token);
-      onChange(!isFavorite);
-    } catch (error) {
-      console.error("Error adding favorite:", error);
+      if (isFavorite) {
+        // If already favorite, show delete confirmation modal
+        setShowModal(true);
+      } else {
+        // If not favorite, try to add
+        await addFavorite(animeId.toString(), token);
+        onChange(true);
+      }
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        // If anime already exists in favorites
+        setShowModal(true); // Show delete confirmation modal
+      } else {
+        console.error("Error adding favorite:", error);
+      }
     } finally {
       setLoading(false);
     }

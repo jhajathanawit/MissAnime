@@ -14,7 +14,7 @@ function Navbar() {
   const { user } = useUser() as { user: User | null };
   const [profile, setProfile] = useState<User | null>(null);
 
-  const userLink = user ? `/users/${user}` : "/login";
+  const userLink = user ? `/users/${user.user_id}` : "/login";  // เปลี่ยนจาก user เป็น user.user_id
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -60,6 +60,9 @@ function Navbar() {
     userDisplay = <RiUserShared2Line className="inline-block mr-1" />;
   }
 
+  console.log('Current user:', user); // ตรวจสอบค่า user
+  console.log('User link:', userLink); // ตรวจสอบค่า userLink
+
   return (
     <nav className="relative">
       {/* Desktop Navbar */}
@@ -74,7 +77,7 @@ function Navbar() {
           <Link to="/contact">Contact</Link>
         </li>
         <li>
-          <Link to="/login">
+          <Link to={userLink}>  {/* เปลี่ยนจาก /login เป็น userLink */}
             {userDisplay}
           </Link>
         </li>
